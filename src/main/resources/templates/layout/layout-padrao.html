@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <title>UTFPR</title>
+
+        <link rel="shortcut icon" th:href="@{/images/favicon.ico}"/>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+              integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+              crossorigin="anonymous">
+        <!--<link rel="stylesheet" href="https://unpkg.com/shards-ui@latest/dist/css/shards.min.css">-->
+        <link rel="stylesheet" th:href="@{/vendors/mdb/css/mdb.css}"/>
+        <!--<link rel="stylesheet" th:href="@{/css/estilo.css}" />-->
+        <link rel="stylesheet" th:href="@{/css/style.css}"/>
+        <link rel="stylesheet" th:href="@{/vendors/sweetalert/sweetalert.css}"/>
+        <link rel="stylesheet" th:href="@{/vendors/bootstrap-datepicker/css/bootstrap-datepicker.min.css}"/>
+    </head>
+
+    <body>
+        <div class="container-fluid px-0 ">
+
+            <nav class="navbar fixed-top navbar-dark navbar-expand-lg navbar-fixed-top p-2">
+
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#barraNav">
+                    <img th:src="@{/imgs/logo.png}" id="logo" alt="Logo"/>
+                </button>
+
+                <div class="collapse navbar-collapse row" id="barraNav">
+
+                    <div class="col-lg-3" id="logo-left">
+                        <a href="index.html">
+                            <img th:src="@{/imgs/logo.png}" id="logo" alt="Logo"/>
+                        </a>
+                    </div>
+
+                    <ul class="navbar-nav col-lg-6">
+                        <li>
+                            <a href="shop-aneis.html" class="nav-link">Anéis</a>
+                        </li>
+                        <li>
+                            <a href="shop-relogios.html" class="nav-link">Relógios</a>
+                        </li>
+                        <li>
+                            <a href="shop-oculos.html" class="nav-link">Oculós</a>
+                        </li>
+                        <li>
+                            <a href="shop-carteiras.html" class="nav-link">Carteiras</a>
+                        </li>
+                    </ul>
+
+
+                    <ul class="navbar-nav col-lg-3 d-flex justify-content-end">
+                        <li class="">
+                            <a class="nav-link" id="btnEntrar" data-toggle="modal" data-target="#modal-login">Entrar
+                                <i class="fa fa-user"></i>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="nav-link" onclick="openSearch()">Pesquisar
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="container-search">
+                        <form action="" class="form-inline">
+                            <input type="text" class="form-control" placeholder="O que procura?"/>
+                            <div class="">
+                                <a class="d-block">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+
+        <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-notify modal-warning" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center text-dark bg-white">
+                        <h4 class="modal-title w-100 font-weight-bold py-2">Olá, faça seu login ou registro</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="dark-text">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark active" id="login-tab" data-toggle="tab" href="#entrar"
+                                   role="tab" aria-controls="entrar" aria-selected="true">Entrar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" id="signup-tab" data-toggle="tab" href="#signup"
+                                   role="tab"
+                                   aria-controls="profile" aria-selected="false">Cadastrar-se
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <form class="tab-pane fade show active" id="entrar" role="tabpanel"
+                                  aria-labelledby="login-tab">
+                                <div class="md-form mb-5">
+                                    <i class="fa fa-envelope prefix text-dark"></i>
+                                    <input type="email" id="txtEmail" name="email" class="form-control"
+                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                    <label for="txtEmail">Seu email</label>
+                                </div>
+                                <div class="md-form">
+                                    <i class="fa fa-lock prefix text-dark" style="font-size: 41px"></i>
+                                    <input type="password" id="txtSenha" name="senha" class="form-control"
+                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                    <label for="txtSenha">Sua senha</label>
+                                </div>
+
+                                <div class="modal-footer justify-content-center">
+                                    <a href="#" class="btn btn-outline-warning" onclick="return save(this);">Entrar
+                                        <i
+                                                class="fa fa-arrow-right ml-1" style="color: inherit"></i>
+                                    </a>
+                                </div>
+                            </form>
+                            <form class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+
+                                <p class="text-danger mt-3">Campos com * são obrigatórios</p>
+
+                                <div class="md-form">
+                                    <div class="row">
+                                        <i class="fa fa-user text-dark col-lg-1" style="font-size: 37px;"></i>
+                                        <div class="col-lg-5">
+                                            <input type="text" id="txtName" name="nome" class="form-control" required
+                                                   maxlength="130" onfocus="onEnter(this)" onblur="onExit(this)">
+                                            <label for="txtName" class="">Seu Nome*</label>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <input type="text" id="txtCPF" name="cpf" class="form-control" required
+                                                   onfocus="onEnter(this)" onblur="onExit(this)">
+                                            <label for="txtCPF" class="">CPF*</label>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <input type="tel" id="txtTelefone" name="telefone" class="form-control"
+                                                   onfocus="onEnter(this)" onblur="onExit(this)">
+                                            <label for="txtTelefone" class="">Telefone</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="md-form">
+                                    <div class="row">
+                                        <i class="fa fa-envelope text-dark col-lg-1" style="font-size: 33px;"></i>
+                                        <div class="col-lg-5">
+                                            <input type="email" id="txtEmailCad" name="email" class="form-control"
+                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                            <label for="txtEmailCad">Seu email*</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="email" id="txtEmailCadConf" name="confEmail"
+                                                   class="form-control"
+                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                            <label for="txtEmailCadConf">Confirme*</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="md-form">
+                                    <div class="row">
+                                        <i class="fa fa-lock text-dark col-lg-1" style="font-size: 41px;"></i>
+                                        <div class="col-lg-5">
+                                            <input type="password" id="txtSenhaCad" name="senha" class="form-control"
+                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                            <label for="txtSenhaCad">Sua senha*</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="password" id="txtSenhaConf" name="confSenha"
+                                                   class="form-control"
+                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                            <label for="txtSenhaConf">Confirme a senha*</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="md-form row">
+                                    <i class="fa fa-location-arrow text-dark col-lg-1" style="font-size: 41px;"></i>
+                                    <div class="col-lg-5">
+                                        <input type="text" id="txtRua" name="rua" class="form-control"
+                                               onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                        <label for="txtRua">Rua*</label>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="number" id="txtRuaNumero" name="endenumero" class="form-control"
+                                               min="1" onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                        <label for="txtRuaNumero">Número*</label>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" id="txtCEP" name="cep" class="form-control"
+                                               onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                        <label for="txtCEP">CEP*</label>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer justify-content-center">
+                                    <a href="#" onclick="return save(this);" class="btn btn-outline-warning"
+                                       id="subCadastro">Cadastrar-se
+                                        <i class="fa fa-plus-circle ml-1" style="color: inherit"></i>
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="ut-layout-content" layout:fragment="conteudo">
+            As págias serão carregadas aqui...
+        </section>
+
+
+        <footer class="page-footer font-small">
+            <div class="container-fluid p-0">
+                <div class="row text-center text-xs-center text-sm-left text-md-left">
+                    <div class="col-lg-4">
+                        <h5>Institucional</h5>
+                        <ul class="list-unstyled quick-links">
+                            <li>
+                                <a href="#">Garantia Estendida</a>
+                            </li>
+                            <li>
+                                <a href="#">Política de privacidade</a>
+                            </li>
+                            <li>
+                                <a href="#">Assessoria de Imprensa</a>
+                            </li>
+                            <li>
+                                <a href="#">Trabalhe conosco</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5>Atendimento</h5>
+                        <ul class="list-unstyled quick-links">
+                            <li>
+                                <a href="#">Atendimento</a>
+                            </li>
+                            <li>
+                                <a href="#">Trocas e devoluções</a>
+                            </li>
+                            <li>
+                                <a href="#">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="#">Processo de fabricação</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5>Formas de Pagamento</h5>
+                        <ul class="list-unstyled quick-links">
+                            <li>
+                                <a href="#">MasterCard
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 611.996 611.996"
+                                         style="width: 50px;height: 33px;" xml:space="preserve" width="512px"
+                                         height="512px">
+                                    <g>
+                                        <g>
+                                            <path
+                                                    d="M588.63,113.193L213.812,33.871c-15.858-3.355-31.576,6.876-34.931,22.734l-7.121,45.762l432.477,91.519l7.121-45.762    C614.713,132.272,604.488,116.549,588.63,113.193z"
+                                                    fill="#FFFFFF"></path>
+                                            <path
+                                                    d="M431.009,203.591c-4.378-15.766-20.854-25.085-36.615-20.714L323.24,202.63l-167.742-35.5l-18.448,87.165L21.786,286.287    c-15.76,4.372-25.079,20.848-20.708,36.609l64.958,234.078c4.378,15.76,20.855,25.085,36.615,20.708l372.608-103.403    c15.76-4.378,25.079-20.848,20.708-36.615l-11.15-40.184l41.789,8.835c15.858,3.361,31.576-6.87,34.931-22.728l26.439-124.937    L437.45,226.797L431.009,203.591z M474.04,322.559l9.215-43.552c1.384-6.521,7.85-10.727,14.37-9.35l43.552,9.221    c6.527,1.384,10.733,7.843,9.356,14.37l-9.215,43.552c-1.384,6.521-7.849,10.733-14.37,9.35l-43.552-9.215    C476.863,335.546,472.656,329.08,474.04,322.559z M28.27,309.646l103.115-28.606l243.299-67.517l26.181-7.274    c0.478-0.129,0.955-0.19,1.421-0.19c2.1,0,4.611,1.378,5.345,4.017l3.074,11.07l9.631,34.704L37.148,362.186l-12.705-45.768    C23.647,313.546,25.399,310.442,28.27,309.646z M472.601,444.141c0.49,1.776-0.024,3.245-0.545,4.164    c-0.514,0.918-1.506,2.119-3.282,2.608L96.173,554.316c-0.471,0.129-0.955,0.196-1.421,0.196c-2.1,0-4.611-1.384-5.345-4.023    L51.519,413.955l383.188-106.342l23.371,84.208L472.601,444.141z"
+                                                    fill="#FFFFFF"></path>
+                                            <path
+                                                    d="M156.379,453.484c-1.788-6.429-8.499-10.225-14.928-8.443l-43.515,12.08c-6.423,1.782-10.225,8.499-8.437,14.928    l12.074,43.509c1.788,6.429,8.499,10.225,14.928,8.437l43.515-12.074c6.429-1.782,10.225-8.499,8.443-14.928L156.379,453.484z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+
+                                </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">Visa
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px"
+                                         viewBox="0 0 449.172 449.172" style="width: 50px; height: 33px;"
+                                         xml:space="preserve">
+                                    <g>
+                                        <g>
+                                            <path
+                                                    d="M429.926,88.908H19.246C8.617,88.908,0,97.525,0,108.154v232.864c0,10.629,8.617,19.246,19.246,19.246h410.68    c10.629,0,19.246-8.617,19.246-19.246V108.154C449.172,97.525,440.555,88.908,429.926,88.908z M417.415,328.508H31.757V120.665    h385.658V328.508L417.415,328.508z"
+                                                    fill="#FFFFFF"></path>
+                                            <path
+                                                    d="M290.441,272.604c0.554,0.85,1.498,1.361,2.514,1.361h21.525c1.246,0,2.363-0.771,2.806-1.936    c2.646-6.979,4.343-11.426,4.903-12.862c1.429,0,8.04,0.008,15.128,0.019h0.4c8.146,0.01,16.8,0.021,18.871,0.021l0,0    c0.611,2.615,2.126,9.541,2.751,12.396c0.301,1.379,1.521,2.36,2.931,2.36h18.771c0.909,0,1.77-0.412,2.339-1.121    c0.568-0.709,0.785-1.638,0.591-2.524l-20.414-92.478c-0.304-1.375-1.521-2.354-2.93-2.354H342.29    c-7.334,0-11.542,2.445-14.069,8.174l-38.011,86.091C289.8,270.682,289.888,271.753,290.441,272.604z M344.2,202.051l1.815,8.512    L352.232,239H329.92h-0.002L344.2,202.051z"
+                                                    fill="#FFFFFF"></path>
+                                            <path
+                                                    d="M217.378,269.439c7.083,2.484,16.974,4.029,26.456,4.131c0.011,0,0.021,0,0.032,0    c27.188-0.006,44.881-12.748,45.075-32.463c0.104-10.84-6.811-19.038-21.678-25.764c-9.101-4.421-14.676-7.357-14.623-11.853    c0-4.042,5.098-8.133,14.893-8.134c0.236-0.004,0.516-0.006,0.79-0.006c8.134,0,13.879,1.844,17.492,3.231    c0.84,0.322,1.778,0.251,2.561-0.194c0.782-0.445,1.321-1.217,1.473-2.104l2.428-14.277c0.25-1.473-0.621-2.905-2.044-3.36    c-4.464-1.428-11.682-3.13-20.723-3.13c-25.626,0-43.623,12.892-43.766,31.339c-0.162,13.66,12.867,21.281,22.688,25.826    c10.073,4.646,13.457,7.619,13.411,11.781c-0.071,6.372-8.075,9.273-15.483,9.273c-10.543,0-16.225-1.59-24.263-4.933    c-0.842-0.351-1.8-0.298-2.6,0.144c-0.799,0.439-1.354,1.221-1.509,2.121l-2.573,15.033    C215.167,267.544,215.997,268.955,217.378,269.439z"
+                                                    fill="#FFFFFF"></path>
+                                            <path
+                                                    d="M67.114,181.03c17.185,6.185,31.242,15.999,40.652,28.382c0.582,0.766,1.475,1.185,2.39,1.185    c0.421,0,0.846-0.088,1.247-0.271c1.276-0.584,1.978-1.976,1.688-3.349l-5.001-23.645c-0.011-0.051-0.023-0.101-0.036-0.151    c-1.798-6.753-7.491-7.757-11.617-7.924c-0.039-0.001-0.078-0.002-0.117-0.002l-28.185-0.046c-0.002,0-0.003,0-0.005,0    c-1.457,0-2.703,1.047-2.955,2.482C64.923,179.126,65.741,180.536,67.114,181.03z"
+                                                    fill="#FFFFFF"></path>
+                                            <path
+                                                    d="M171.154,272.859c0.57,0.676,1.409,1.065,2.293,1.065h20.766c1.462,0,2.712-1.054,2.957-2.496l15.78-92.537    c0.149-0.871-0.094-1.764-0.664-2.439c-0.57-0.675-1.408-1.065-2.292-1.065h-20.781c-1.463,0-2.712,1.055-2.957,2.496    l-15.766,92.537C170.342,271.292,170.585,272.186,171.154,272.859z"
+                                                    fill="#FFFFFF"></path>
+                                            <path
+                                                    d="M88.185,196.697c-1.031-0.792-2.452-0.83-3.522-0.097c-1.071,0.733-1.55,2.072-1.185,3.318l21.008,71.777    c0.374,1.279,1.547,2.158,2.879,2.158c0.001,0,0.003,0,0.003,0l24.193-0.035c1.197,0,2.279-0.715,2.752-1.814l39.711-92.351    c0.398-0.927,0.305-1.993-0.251-2.835c-0.555-0.843-1.496-1.35-2.505-1.35h-0.002l-21.845,0.011c-1.233,0-2.342,0.757-2.792,1.906    l-25.557,65.288l-2.749-9.95c-0.036-0.132-0.082-0.262-0.137-0.388C114.152,222.972,103.311,208.321,88.185,196.697z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">PayPal
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 56.48 56.48"
+                                         style="width: 50px; height: 33px;" xml:space="preserve" width="512px"
+                                         height="512px">
+                                    <g>
+                                        <g>
+                                            <path
+                                                    d="M12.121,24.861c-0.229-0.15-0.57-0.226-1.018-0.226l-0.383,0.002c-0.251-0.002-0.508,0.2-0.557,0.444l-0.353,1.52    c-0.055,0.246,0.102,0.447,0.356,0.447h0.286c0.635,0,1.127-0.129,1.48-0.389c0.353-0.258,0.534-0.625,0.526-1.1    C12.46,25.245,12.347,25.01,12.121,24.861z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                        <g>
+                                        <g>
+                                            <path
+                                                    d="M18.371,28.364c-0.069,0.002-0.598,0.062-0.866,0.095c-0.3,0.043-0.56,0.103-0.771,0.174l-0.496,0.338    c-0.116,0.146-0.171,0.332-0.171,0.571l0.226,0.438c0.153,0.086,0.379,0.128,0.667,0.128c0.19,0,0.396-0.046,0.612-0.134    l0.46-0.237l0.182-0.242c0.072-0.282,0.221-0.909,0.238-0.987L18.371,28.364z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                        <g>
+                                        <g>
+                                            <path
+                                                    d="M55.026,9.939H1.454C0.65,9.939,0,10.59,0,11.393v33.694c0,0.803,0.65,1.455,1.454,1.455h53.572    c0.804,0,1.454-0.651,1.454-1.454V11.393C56.48,10.59,55.83,9.939,55.026,9.939z M13.484,27.695    c-0.796,0.586-1.904,0.878-3.336,0.88H9.814c-0.257,0-0.508,0.202-0.561,0.444l-0.402,1.738c-0.057,0.248-0.308,0.446-0.562,0.446    h-1.17c-0.254,0-0.413-0.204-0.353-0.446l1.645-7.163c0.06-0.246,0.309-0.443,0.563-0.447l2.444-0.001    c0.528,0.005,0.985,0.037,1.381,0.109c0.39,0.074,0.73,0.198,1.018,0.374c0.276,0.174,0.499,0.407,0.639,0.689    c0.156,0.282,0.225,0.635,0.225,1.055C14.681,26.333,14.286,27.109,13.484,27.695z M20.746,26.781l-0.044,0.301l-0.854,3.692    c-0.05,0.222-0.27,0.411-0.503,0.438l-0.016,0.006H19.16h-0.898h-0.021l-0.004-0.004c-0.223-0.021-0.361-0.21-0.313-0.438v-0.002    l0.002-0.007l0.044-0.188l-0.006-0.007l-0.441,0.291l-0.48,0.268l-0.566,0.194c-0.174,0.042-0.419,0.067-0.735,0.067    c-0.499,0-0.917-0.137-1.233-0.42c-0.314-0.289-0.476-0.658-0.476-1.11c0-0.48,0.111-0.886,0.334-1.224    c0.231-0.336,0.561-0.598,1.007-0.794c0.415-0.189,0.914-0.329,1.484-0.408c0.582-0.084,1.062-0.145,1.727-0.187l0.168-0.104    l0.021-0.165c0-0.254-0.118-0.429-0.353-0.532c-0.238-0.1-0.596-0.15-1.064-0.15c-0.318-0.004-0.718,0.061-1.097,0.147    c-0.397,0.09-0.506,0.149-0.7,0.207c-0.09,0.031-0.307,0.046-0.226-0.33l0.143-0.589c0,0,0.07-0.445,0.515-0.542    c0.215-0.048,0.249-0.057,0.6-0.111c0.475-0.073,0.945-0.11,1.416-0.11c0.953,0,1.651,0.124,2.092,0.373    c0.443,0.248,0.669,0.636,0.667,1.157L20.746,26.781z M22.627,34.055l-1.212,0.002c-0.252,0-0.335-0.2-0.181-0.446l1.037-1.808    c0,0,0.083-0.103,0.009-0.693c-0.16-1.066-0.956-5.598-0.956-5.598c-0.058-0.245,0.098-0.446,0.35-0.446l1.049-0.002    c0.321,0,0.579,0.211,0.637,0.459l0.522,3.143l0.194,0.002c0.163-0.289,1.839-3.165,1.839-3.165    c0.16-0.242,0.484-0.447,0.736-0.447c0,0,1.127,0.003,1.404,0c0.416-0.006-0.032,0.668-0.032,0.668l-4.664,7.887    C23.209,33.857,22.877,34.055,22.627,34.055z M34.744,27.726c-0.799,0.583-1.912,0.878-3.344,0.878h-0.334    c-0.252-0.004-0.504,0.201-0.562,0.443l-0.396,1.741c-0.058,0.243-0.314,0.443-0.562,0.44l-1.173,0.003    c-0.249,0.001-0.413-0.201-0.353-0.444l1.646-7.167c0.06-0.243,0.306-0.441,0.56-0.445l2.447-0.002    c0.525,0.002,0.987,0.039,1.375,0.108c0.395,0.072,0.735,0.196,1.019,0.373c0.279,0.179,0.498,0.408,0.644,0.692    c0.15,0.28,0.223,0.634,0.225,1.054C35.936,26.359,35.535,27.133,34.744,27.726z M42.002,26.786l-0.043,0.303l-0.856,3.689    c-0.048,0.223-0.269,0.412-0.499,0.44l-0.016,0.006H40.42c-0.242,0-0.752,0-0.899,0H39.5l-0.002-0.006    c-0.227-0.021-0.367-0.209-0.312-0.438l-0.002-0.003l0.005-0.004l0.039-0.188l-0.007-0.009l-0.438,0.295L38.3,31.138l-0.565,0.191    c-0.174,0.045-0.42,0.064-0.733,0.069c-0.5,0-0.914-0.142-1.232-0.423c-0.316-0.286-0.479-0.657-0.479-1.111    c0-0.477,0.111-0.885,0.335-1.221c0.229-0.336,0.564-0.597,1.006-0.795c0.418-0.19,0.92-0.328,1.487-0.408    c0.578-0.084,1.058-0.145,1.728-0.186l0.168-0.106l0.018-0.165c0-0.252-0.116-0.429-0.354-0.531    c-0.238-0.101-0.596-0.151-1.062-0.151c-0.32-0.002-0.721,0.062-1.099,0.147c-0.395,0.092-0.502,0.149-0.695,0.207    c-0.098,0.029-0.309,0.046-0.229-0.33l0.143-0.588c0,0,0.067-0.446,0.514-0.542c0.217-0.047,0.252-0.058,0.602-0.109    c0.472-0.076,0.945-0.113,1.416-0.113c0.949,0,1.646,0.126,2.091,0.375c0.446,0.248,0.669,0.634,0.669,1.155L42.002,26.786z     M45.752,23.679l-1.568,7.101l-0.055,0.084c-0.093,0.2-0.291,0.362-0.506,0.362h-1.088l-0.02-0.025    c-0.207-0.032-0.342-0.199-0.293-0.417l-0.002-0.005l0.047-0.205l1.466-6.662l0.052-0.232l0.059-0.091    c0.095-0.196,0.289-0.355,0.504-0.355h1.047c0.255,0,0.408,0.199,0.354,0.443L45.752,23.679z M47.83,22.911h-0.392v0.521    l0.003,0.14l0.027,0.094l0.062,0.06l0.12,0.019l0.098-0.014l0.073-0.022h0.009v0.171l-0.117,0.023l-0.111,0.009l-0.266-0.095    l-0.091-0.3v-0.606h-0.132v-0.162h0.132v-0.325h0.193v0.325h0.392V22.911z M49.725,23.15v0.737h-0.189v-0.65l-0.012-0.139    l-0.025-0.11l-0.066-0.065L49.306,22.9l-0.159,0.041l-0.163,0.103l0.003,0.056l0.002,0.06v0.729h-0.19v-0.65l-0.008-0.141    l-0.027-0.109L48.7,22.924l-0.129-0.023l-0.157,0.039l-0.159,0.099v0.85h-0.188V22.75h0.188v0.127l0.182-0.116l0.188-0.042    l0.198,0.047l0.122,0.136l0.21-0.141l0.205-0.042l0.277,0.113l0.09,0.318H49.725z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                        <g>
+                                        <g>
+                                            <path
+                                                    d="M39.628,28.37c-0.069-0.001-0.596,0.061-0.86,0.095c-0.303,0.043-0.562,0.102-0.771,0.174    c-0.214,0.084-0.388,0.197-0.501,0.338c-0.112,0.146-0.168,0.332-0.168,0.572l0.229,0.437c0.146,0.087,0.369,0.129,0.666,0.129    c0.187,0,0.393-0.046,0.608-0.133l0.457-0.237l0.188-0.242c0.07-0.285,0.222-0.91,0.234-0.988L39.628,28.37z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                        <g>
+                                        <g>
+                                            <path
+                                                    d="M33.372,24.888c-0.231-0.151-0.567-0.225-1.016-0.227l-0.381,0.002c-0.252-0.002-0.508,0.202-0.56,0.445l-0.354,1.519    c-0.057,0.244,0.106,0.448,0.359,0.446h0.291c0.633,0,1.124-0.13,1.478-0.384c0.35-0.261,0.528-0.625,0.526-1.104    C33.709,25.273,33.6,25.038,33.372,24.888z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a>Bitcoin
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                         style="enable-background:new 0 0 512 512;width: 50px;height: 33px;"
+                                         xml:space="preserve" width="512px" height="512px">
+                                    <g>
+                                        <g>
+                                            <path
+                                                    d="M256.198,0C114.804-0.119,0.119,114.408,0,255.802S114.408,511.881,255.802,512C397.177,511.881,511.782,397.375,512,256    C512,114.685,397.513,0.119,256.198,0z M255.802,469.4C137.947,469.4,42.403,373.855,42.403,256S137.947,42.601,255.802,42.601    C373.617,42.72,469.082,138.185,469.201,256C469.201,373.855,373.657,469.4,255.802,469.4z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                        <g>
+                                        <g>
+                                            <path
+                                                    d="M324.954,243.517c17.12-9.65,26.373-28.968,23.183-48.347c-3.963-29.919-39.628-41.214-67.765-43.591v-44.978h-27.74    v44.582h-18.625v-44.582h-27.74v44.582H150.39v28.731h20.805c9.313,0,13.87,2.774,13.87,10.303V313.66    c0,10.303-5.152,13.474-10.7,13.474h-21.201v29.325h53.895v45.573h27.938v-45.573h18.625v45.573h27.146v-45.573h5.944    c57.065,0,76.087-27.938,76.087-65.981C362.343,268.047,346.789,248.748,324.954,243.517z M234.006,181.697h19.814    c13.87,0,41.214,2.378,41.214,24.966c0.951,14.742-9.729,27.661-24.372,29.523h-36.656    C234.006,236.186,234.006,181.697,234.006,181.697z M264.718,324.359v-0.198h-30.712v-59.443h35.666    c8.322,0,39.628,2.774,39.628,24.966S294.44,324.359,264.718,324.359z"
+                                                    fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row p-0">
+                        <div class="col-md-12 p-0" id="social">
+                            <div class="mb-5 flex-center p-0">
+                                <div>
+                                    <a class="fb-ic p-2">
+                                        <i class="fab fa-facebook fa-lg fa-2x"></i>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="tw-ic p-2">
+                                        <i class="fab fa-twitter fa-lg fa-2x"></i>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="gplus-ic p-2">
+                                        <i class="fab fa-google-plus fa-lg fa-2x"></i>
+                                    </a>
+                                </div>
+
+                                <div>
+                                    <a class="li-ic p-2">
+                                        <i class="fab fa-linkedin fa-lg fa-2x"></i>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="ins-ic p-2">
+                                        <i class="fab fa-instagram fa-lg fa-2x"></i>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="pin-ic p-2">
+                                        <i class="fab fa-pinterest fa-lg fa-2x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-copyright text-center py-3">
+                    ALLIANZ LTDA / CNPJ: 99.125.059/0001-73 / Inscrição Estadual: 413.213.618.331 / Endereço Avenida
+                    Tupi,
+                    13 -
+                    Pato Branco, PR - 85501-323 / allianz@newborn.com
+                    <br/>
+                    © 2018 Copyright:
+                    <span href="https://mdbootstrap.com/bootstrap-tutorial/">ALLIANZ.COM</span>
+                </div>
+                <!-- Copyright -->
+            </div>
+        </footer>
+
+        <a href="#" class="floating-cart" data-toggle="modal" data-target="#modal-carrinho">
+            <i class="fab fa-opencart"></i>
+        </a>
+
+        <div class="modal fade right " id="modal-carrinho" tabindex="-1" role="dialog" data-backdrop="false">
+            <div class="modal-dialog modal-full-height modal-right animated fast fadeInUpBig">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p class="heading lead text-center w-100 mb-0">Meu carrinho</p>
+
+                        <button type="button" class="close animated" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="tblProdutos" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Produto</th>
+                                    <th style="width: 20%;">Quantidade</th>
+                                    <th style="width: 20%;">Preço</th>
+                                    <th style="width: 5%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div id="c-ok" class="card container-fluid">
+                            <div class="card-body row">
+                                <div class="col-lg-9 col-8 col-md-6 col-sm-6 text-right">
+                                    <p>Subtotal</p>
+                                    <p>Frete</p>
+                                    <p>Total</p>
+                                </div>
+                                <div class="col-lg-3 col-4 col-md-6 col-sm-6 text-right">
+                                    <p>
+                                        <span id="subTotal">350</span>
+                                        R$
+                                    </p>
+                                    <p>
+                                        <span id="totalfrete">30</span>
+                                        R$
+                                    </p>
+                                    <p>
+                                        <span id="total">380</span>
+                                        R$
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button"
+                                        class="btn btn-elegant btn-lg d-flex flex-row align-items-center">
+                                    <span class="mr-3">
+                                        Finalizar Compra
+                                    </span>
+                                    <i class="fa fa-angle-double-right text-white fa-2x"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="c-vazio" class="jumbotron-fluid display-4 text-center text-dark bg-light">
+                            O carrinho está vazio
+                            <i class="fa fa-frown-o"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" th:src="@{/vendors/jquery/jquery.js}"></script>
+        <script type="text/javascript"
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script type="text/javascript" th:src="@{/vendors/sweetalert/sweetalert-dev.js}"></script>
+        <script type="text/javascript"
+                th:src="@{/vendors/bootstrap-datepicker/js/bootstrap-datepicker.min.js}"></script>
+        <script type="text/javascript" th:src="@{/vendors/jquery/mask/jquery.mask.js}"></script>
+        <script type="text/javascript" th:src="@{/vendors/jquery/validate/jquery.validate.min.js}"></script>
+        <script type="text/javascript" th:src="@{/vendors/jquery/validate/additional-methods.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/app.js}"></script>
+        <script type="text/javascript" th:src="@{/js/validate.js}"></script>
+        <script type="text/javascript" th:src="@{/js/carrinho.js}"></script>
+        <script type="text/javascript" th:src="@{/js/crud.js}"></script>
+        <script type="text/javascript">
+            $('.datepicker').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
+            });
+        </script>
+
+    </body>
+</html>

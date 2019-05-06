@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
+
+.contaianer-products {
+    padding-top: 8%;
+    font-family: 'Julius Sans One';
+    background-color: #fff;
+}
+
+.contaianer-products a:hover {
+    font-size: 1.1rem;
+}
+
+#parcelamento {
+    color: #000000 !important;
+    font-weight: bold;
+}
+
+#parcelamento ul {
+    border-color: #b39510 !important;
+    border-radius: 10px !important;
+    display: none;
+    position: absolute;
+    width: 23%;
+    right: 37%;
+    padding-bottom: 2px;
+    z-index: 99999;
+    bottom: 3%;
+    background-color: white;
+}
+
+#parcelamento .fa-list:hover ul {
+    display: inline-block;
+}
+
+#parcelamento li {
+    font-size: 0.9em;
+    color: #b39510;
+}
+
+#parcelamento:hover {
+    color: #b39510;
+}
+
+@media (max-width: 1000px) {
+    .contaianer-products {
+        padding-top: 15%;
+    }
+}
+
+#btnAddCarrinho:hover {
+    font-size: .81rem;
+}
+
+#id_comentar:hover {
+    font-size: initial;
+}
+
+.custom-select:focus {
+    border-color: #b39510;
+    outline: 0;
+    box-shadow: 0 0 0 0.1rem #b6a24a;
+}
+
+#estrelas {
+
+}
+
+#estrelas .btn-outline-warning {
+    border-color: #ffbb33 !important;
+    color: #ffbb33 !important
+}
+
+#estrelas .btn-outline-warning:focus {
+    outline: none;
+}
