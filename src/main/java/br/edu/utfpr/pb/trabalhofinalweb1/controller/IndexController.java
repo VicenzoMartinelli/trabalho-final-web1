@@ -20,6 +20,13 @@ public class IndexController {
         return modelAndView;
     }
 
+    @GetMapping(value = "admin")
+    public ModelAndView admin() {
+        ModelAndView modelAndView = new ModelAndView("admin");
+
+        return modelAndView;
+    }
+
 
     @GetMapping(value = "")
     public String index(Model model) {

@@ -101,7 +101,7 @@ body {
     font-size: 91px;
     background-color: #000000;
     font-family: 'Raleway', Helvetica, Arial, sans-serif;
-    opacity: 0.75;
+    opacity: 0.85;
     text-align: center;
 }
 
@@ -210,14 +210,14 @@ body {
     padding: 0.9% !important;
 }
 
-.floating-cart {
+.floating-button {
     box-shadow: 4px 4px 4px rgba(0, 0, 0, .3), 1px 0px 0px rgba(86, 86, 86, 0.3), -2px -1px 0px rgba(86, 86, 86, 0.3);
     color: #f1f1f1 !important;
     position: fixed;
     background-color: #000000;
     border-radius: 66%;
     padding: 1.11% 1.5%;
-    left: 92%;
+    left: 90%;
     z-index: 9999;
     font-size: 1.2em;
     bottom: 3%;
@@ -225,14 +225,19 @@ body {
     cursor: pointer;
 }
 
-.floating-cart.scrolled {
+.floating-button.scrolled {
     background-color: #fff !important;
     color: #000000 !important;
 }
 
-.floating-cart:hover {
+.floating-button:hover {
     transform: scale(1.2);
     color: #cca910 !important;
+}
+
+.floating-admin {
+    bottom: 15%;
+    font-size: 13px;
 }
 
 #container-aneis {
@@ -430,15 +435,6 @@ footer a:hover {
     opacity: 1;
 }
 
-@media (max-width: 1000px) {
-    #logo-left {
-        display: none;
-    }
-
-    .md-form .col-lg-6, .md-form .col-lg-5, .md-form .col-lg-4, .md-form .col-lg-3 {
-        margin-top: 2%
-    }
-}
 
 @keyframes skew {
     0% {
@@ -549,4 +545,19 @@ footer a:hover {
 
 .btn-elegant:hover, s.btn-elegant:active {
     background-color: #2e2e2e !important;
+}
+
+@media (max-width: 1000px) {
+    #logo-left {
+        display: none;
+    }
+
+    .md-form .col-lg-6, .md-form .col-lg-5, .md-form .col-lg-4, .md-form .col-lg-3 {
+        margin-top: 2%
+    }
+
+    #modal-carrinho .modal-dialog {
+        width: 90% !important;
+        margin: auto;
+    }
 }

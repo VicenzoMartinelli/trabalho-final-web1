@@ -7,21 +7,19 @@ $(() => {
 
     $("#entrar").validate({
         rules: {
-            email: {
-                required: true,
-                email: true
+            username: {
+                required: true
             },
             senha: {
                 required: true,
             }
         },
         messages: {
-            senha: {
+            password: {
                 required: "Insira sua senha"
             },
-            email: {
-                required: "Insira um email",
-                email: "Email inválido"
+            username: {
+                required: "Insira um email"
             }
         },
         submitHandler: function (form) {
@@ -98,23 +96,4 @@ $(() => {
             form.submit();
         }
     });
-});
-
-var serialize = function (form) {
-    var json = {};
-    var data = new FormData(form);
-    var keys = data.keys();
-    for (var key = keys.next(); !key.done; key = keys.next()) {
-        var values = data.getAll(key.value);
-        json[key.value] = values.length == 1 ? values[0] : values;
-    }
-    return json;
-};
-
-var form = document.querySelector("#signup");
-var enviar = document.getElementById("subCadastro");
-enviar.addEventListener("click", function (event) {
-    event.preventDefault();
-    var json = serialize(form);
-    console.log(JSON.stringify(json));
 });

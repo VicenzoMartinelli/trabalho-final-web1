@@ -9,10 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,56 +25,48 @@ public abstract class CrudController<T, ID extends Serializable> {
 
     protected abstract String getUrl();
 
-    protected abstract ModelAndView form(T entity);
+    protected abstract void addDependenciesObjects(ModelAndView model);
 
-    protected abstract ModelAndView form(@PathVariable ID id);
+    protected abstract Page<T> getCustomPaginated();
 
-    @GetMapping
-    public ModelAndView list() {
-        ModelAndView modelAndView = new ModelAndView(this.getUrl() + "/list");
-        modelAndView.addObject("list", this.getService().findAll());
+    protected abstract String getPageName();
 
-        return modelAndView;
-    }
+    @GetMapping("new")
+    public ModelAndView form(T entity) {
+        ModelAndView md = new ModelAndView(this.getUrl() + "/form");
 
-    @GetMapping("page")
-    public ModelAndView list(
-            @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size
-    ) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
+        Object source = null;
 
-        Page<T> list = this.getService().findAll(PageRequest.of(currentPage - 1, pageSize));
-
-        ModelAndView md = new ModelAndView(this.getUrl() + "/list");
-
-        md.addObject("list", list);
-
-        if (list.getTotalPages() != 0) {
-            List<Integer> pageNumbers = IntStream
-                    .rangeClosed(1, list.getTotalPages())
-                    .boxed()
-                    .collect(Collectors.toList());
-
-            md.addObject("pageNumbers", pageNumbers);
+        try {
+            source = md == null ? ((Class) ((ParameterizedType) this.getClass().
+                    getGenericSuperclass()).getActualTypeArguments()[0]).newInstance() : entity;
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
         }
+
+
+        md.addObject("entity", source);
+
+        addDependenciesObjects(md);
 
         return md;
     }
 
-    @PostMapping
-    public ModelAndView save(@Valid T entity,
-                             BindingResult result,
-                             RedirectAttributes attributes) {
+    @GetMapping("find/{id}")
+    @ResponseBody
+    public T edit(@PathVariable ID id) {
+        return getService().findOne(id);
+    }
+
+    @PostMapping("add")
+    public ResponseEntity<?> save(@Valid T entity, BindingResult result) {
         if (result.hasErrors()) {
-            return form(entity);
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        this.getService().save(entity);
 
-        attributes.addFlashAttribute("mensagem", "Registro salvo com sucesso!");
+        getService().save(entity);
 
-        return new ModelAndView("redirect:/" + this.getUrl() + "/page");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
@@ -87,5 +79,35 @@ public abstract class CrudController<T, ID extends Serializable> {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping()
+    public ModelAndView list(
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size
+    ) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Optional<Page<T>> opt = Optional.ofNullable(getCustomPaginated());
+
+        Page<T> list = opt.orElse(getService().findAll(PageRequest.of(currentPage - 1, pageSize)));
+
+        ModelAndView md = new ModelAndView(this.getUrl() + "/list");
+
+        md.addObject("list", list);
+        md.addObject("pageName", getPageName());
+
+        if (list.getTotalPages() != 0) {
+            List<Integer> pageNumbers = IntStream
+                    .rangeClosed(1, list.getTotalPages())
+                    .boxed()
+                    .collect(Collectors.toList());
+
+            md.addObject("pageNumbers", pageNumbers);
+        }
+        md.addObject("totalCount", list.getTotalElements());
+
+        return md;
     }
 }

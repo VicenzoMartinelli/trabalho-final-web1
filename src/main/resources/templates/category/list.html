@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout-padrao-admin}">
+<head>
+</head>
+<body>
+<section layout:fragment="conteudo">
+
+    <div class="card container-fluid">
+        <div class="card-header" th:text="${pageName}"></div>
+        <div class="card-body">
+            <a data-toggle="modal"
+               data-target="#modal-form"
+               class="btn btn-lg btn-elegant">Adicionar Novo <i class="fas fa-plus-circle ml-3"></i></a>
+        </div>
+    </div>
+
+    <div class="container-fluid grid-container">
+
+        <div class="table-responsive">
+            <table id="tabela-produtos"
+                   class="table  table-striped  table-bordered  table-hover  table-condensed">
+                <thead class="ut-table-header-solid">
+                <tr>
+                    <th width="10%">Código</th>
+                    <th>Nome</th>
+                    <th width="20%">Operações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:id="'row_' + ${entity.id}" th:each="entity: ${list.content}">
+                    <td class="text-center" th:text="${entity.id}"></td>
+                    <td th:text="${entity.name}">Categoria</td>
+
+                    <td style="width:200px" class="text-center">
+                        <a th:href="'javascript:edit(\'/category/find/' + ${entity.id} + '\');'"
+                           class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i>
+                        </a> &nbsp;
+                        <a th:href="'javascript:remove('+ ${entity.id} +',\'/category\');'"
+                           class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr th:if="${list.empty}">
+                    <td colspan="3">Não encontramos nada aqui :(</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="grid-footer d-flex justify-content-between align-items-center align-self-center mx-3">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination pg-blue justify-content-center "
+                        th:if="${list.totalPages > 0}">
+                        <li class="page-item" th:classappend="${list.number + 1 == 1} ? disabled">
+                            <a class="page-link" th:href="@{/category/(size=${list.size}, page=${list.number})}">Anterior</a>
+                        </li>
+                        <li class="page-item" th:classappend="${pageNumber == list.number + 1} ? active"
+                            th:each="pageNumber : ${pageNumbers}">
+                            <a class="page-link"
+                               th:href="@{/category/(size=${list.size}, page=${pageNumber})}"
+                               th:text="${pageNumber}">
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${list.number + 1 == list.totalPages} ? disabled">
+                            <a class="page-link" th:href="@{/category/(size=${list.size}, page=${list.number + 2})}">Próxima</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <h6>Total de <strong th:text="${totalCount}"></strong> registros</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-form" role="dialog" th:id="modal-form" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Categoria</h3>
+
+                    <button id="btnClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="frm" method="POST" class="form-vertical" th:action="@{/category/add}">
+
+                        <input type="hidden" id="id" name="id"/>
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" class="form-control" name="name" id="name"/>
+                        </div>
+                    </form>
+                </div>
+                <!--Body-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal"
+                            aria-hidden="true">Cancelar
+                    </button>
+
+                    <button type="button" class="btn btn-outline-warning waves-effect" onclick="save('')">Salvar
+                    </button>
+                </div>
+            </div>
+            <!--Content-->
+        </div>
+    </div>
+</section>
+</body>
+</html>

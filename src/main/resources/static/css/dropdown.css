@@ -1,0 +1,53 @@
+.dd-allianz {
+    position: relative;
+    display: inline-block;
+}
+
+.dd-allianz .nav-link {
+    transform: none;
+    cursor: pointer;
+}
+
+.dd-allianz-content {
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    min-width: 200px;
+    margin-top: 3px;
+    box-shadow: 2px 0px 20px 7px rgba(0, 0, 0, 0.2), 1px 4px 20px 7px rgba(0, 0, 0, 0.2);
+    transition: all ease-in-out 3s;
+    padding: 12px 16px;
+    z-index: 1;
+    color: #000000 !important;
+    border-radius: 7px;
+}
+
+.dd-active {
+    color: rgba(255, 255, 255, 1) !important;
+    display: flex;
+    background-color: #ffffff;
+}
+
+.dd-allianz-content a {
+    color: #000000 !important;
+    font-weight: bold;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff;
+    transform: none;
+}
+
+@media (max-width: 1000px) {
+    .dd-allianz-content {
+        left: 36%;
+    }
+}
+
+
+
+

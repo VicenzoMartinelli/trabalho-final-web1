@@ -64,7 +64,7 @@ function edit(url) {
         url,
         function (entity, status) {
             $("#id").val(entity.id);
-            $("#nome").val(entity.nome);
+            $("#name").val(entity.name);
         }
     );
 

@@ -3,7 +3,7 @@ $(function () {
         let $nav = $(".navbar-fixed-top");
         $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height() * 5);
 
-        let $btn = $(".floating-cart");
+        let $btn = $(".floating-button");
         $btn.toggleClass('scrolled', $(this).scrollTop() > $nav.height() * 5);
 
         let navItems = $(".nav-link");
@@ -26,9 +26,24 @@ $(function () {
 
         $('#txtFrete').mask('00000-000');
     });
+
+    const {href} = window.location;
+    const notificationType = new URL(href).searchParams.get("n");
+    const msg = new URL(href).searchParams.get("m");
+
+    if (msg && notificationType) {
+        swal({
+            title: 'Atenção',
+            text: base64.decode(msg),
+            icon: notificationType == 0 ? 'success' : 'error',
+            timer: 1500,
+            buttons: false
+        });
+    }
+    history.pushState({}, null, window.location.toString().split('?')[0]);
 });
 
-function save(element) {
+function submitForm(element) {
     $(element).parents('form').submit();
 }
 

@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css?family=Heebo');
+
+#conteudo {
+    min-height: 88vh;
+    background: #ffffff;
+    padding: 2% 4%;
+    color: #000000;
+    font-family: cursive;
+}
+
+#conteudo > .card {
+    background: #000000 !important;
+    padding: 0 !important;
+    box-shadow: 2px 0px 20px 6px rgba(0, 0, 0, 0.2), 1px 4px 18px 4px rgba(0, 0, 0, 0.2);
+}
+
+header {
+    height: 59px;
+}
+
+.grid-container {
+    padding: 3% 0;
+}
+
+.grid-container .table-responsive {
+    box-shadow: 2px 0px 20px 6px rgba(0, 0, 0, 0.2), 1px 4px 18px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Heebo', sans-serif;
+}
+
+.grid-footer a, .grid-footer strong, .grid-footer h6 {
+    font-size: 18px !important;
+}
+
+.card .card-header {
+    text-align: center;
+    font-size: 2em;
+    border-bottom: 2px solid white;
+    color: #ffffff;
+    font-family: 'Heebo', sans-serif;
+}
+
+.card .card-body {
+    margin-top: 2%;
+    background: white;
+}
+
+tr th {
+    font-size: 1.3em;
+    font-weight: 400
+}
+
+tr td {
+    font-size: 1.1em;
+}
+
+td .btn {
+    border-radius: 20px;
+}
+
+.pagination a {
+    color: #000 !important;
+}
+
+.pagination .page-item.active {
+    background: #000000 !important;
+}
+
+.page-link {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+
+.page-item.active .page-link, .page-link:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+strong {
+    font-weight: bold !important;
+}
+
+.fa-plus-circle {
+    font-size: 21px;
+}

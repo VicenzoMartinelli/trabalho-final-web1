@@ -1,5 +1,6 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.config;
 
+import br.edu.utfpr.pb.trabalhofinalweb1.converter.Base64Converter;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,23 +20,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private ServiceUser _serviceUser;
+    @Autowired
+    private Base64Converter _cv64;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
 
-                .exceptionHandling().accessDeniedPage("/403")
-                .and().formLogin().loginPage("/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login?error=bad_credentials").permitAll()
-                .and().logout()
-                .logoutSuccessUrl("/login")
-                .and().authorizeRequests();
-//				.antMatchers("/genero/**").hasAnyRole("USER", "ADMIN")
-//				.antMatchers("/produtora/**").hasAnyRole("USER", "ADMIN")
-//				.antMatchers("/serie/**").hasAnyRole("ADMIN")
+                .exceptionHandling()
+                .accessDeniedPage("/home?n=1&m=" + _cv64.encode("Você precisa estar autenticado!"))
+                .and()
+                .formLogin()
+                .loginPage("/home?n=1&m=" + _cv64.encode("Realize o login!"))
+                .loginProcessingUrl("/auth")
+                .defaultSuccessUrl("/home?n=0&m=" + _cv64.encode("LogIn realizado com sucesso!"))
+                .failureUrl("/home?n=1&m=" + _cv64.encode("Dados inválidos, verifique suas credenciais!"))
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/home?n=0&m=" + _cv64.encode("LogOut realizado com sucesso!"))
+                .logoutUrl("/auth/logout")
+                .and().authorizeRequests()
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/brand/**").hasAnyRole("ADMIN")
+                .antMatchers("/category/**").hasAnyRole("ADMIN");
 //				.antMatchers("/episodio/**").permitAll()
-//				.antMatchers("/**").authenticated();
     }
 
     @Override
@@ -43,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/css/**")
                 .antMatchers("/js/**")
-                .antMatchers("/images/**")
+                .antMatchers("/imgs/**")
                 .antMatchers("/assets/**")
                 .antMatchers("/webjars/**");
     }
