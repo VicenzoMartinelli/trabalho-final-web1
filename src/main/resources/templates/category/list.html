@@ -35,11 +35,12 @@
                     <td th:text="${entity.name}">Categoria</td>
 
                     <td style="width:200px" class="text-center">
-                        <a th:href="'javascript:edit(\'/category/find/' + ${entity.id} + '\');'"
-                           class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i>
+                        <a title="Alterar registro"
+                           th:href="'javascript:edit(\'/category/find/' + ${entity.id} + '\');'"
+                           class="btn btn-elegant btn-xs"> <i class="fa fa-edit"></i>
                         </a> &nbsp;
-                        <a th:href="'javascript:remove('+ ${entity.id} +',\'/category\');'"
-                           class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        <a title="Excluir registro" th:href="'javascript:remove('+ ${entity.id} +',\'/category\');'"
+                           class="btn btn-elegant btn-xs"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 <tr th:if="${list.empty}">
@@ -88,7 +89,7 @@
                         <input type="hidden" id="id" name="id"/>
                         <div class="form-group">
                             <label for="name">Nome</label>
-                            <input type="text" class="form-control" name="name" id="name"/>
+                            <input type="text" required class="form-control" name="name" id="name"/>
                         </div>
                     </form>
                 </div>

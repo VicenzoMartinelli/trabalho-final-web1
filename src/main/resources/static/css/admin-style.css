@@ -50,11 +50,12 @@ tr th {
 }
 
 tr td {
-    font-size: 1.1em;
+    font-size: 1.5em;
+    vertical-align: middle !important;
 }
 
-td .btn {
-    border-radius: 20px;
+td .btn i {
+    font-size: 1.5em;
 }
 
 .pagination a {
@@ -81,4 +82,8 @@ strong {
 
 .fa-plus-circle {
     font-size: 21px;
+}
+
+.ui-autocomplete {
+    z-index: 99999;
 }

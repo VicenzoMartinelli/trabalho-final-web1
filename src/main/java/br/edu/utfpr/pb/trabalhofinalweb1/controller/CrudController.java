@@ -107,6 +107,7 @@ public abstract class CrudController<T, ID extends Serializable> {
             md.addObject("pageNumbers", pageNumbers);
         }
         md.addObject("totalCount", list.getTotalElements());
+        addDependenciesObjects(md);
 
         return md;
     }

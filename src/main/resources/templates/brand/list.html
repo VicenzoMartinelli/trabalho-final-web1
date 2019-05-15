@@ -36,10 +36,10 @@
 
                     <td style="width:200px" class="text-center">
                         <a th:href="'javascript:edit(\'/brand/find/' + ${entity.id} + '\');'"
-                           class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i>
+                           class="btn btn-elegant btn-xs"> <i class="fa fa-edit"></i>
                         </a> &nbsp;
                         <a th:href="'javascript:remove('+ ${entity.id} +',\'/brand\');'"
-                           class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                           class="btn btn-elegant btn-xs"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 <tr th:if="${list.empty}">
@@ -89,7 +89,7 @@
                         <input type="hidden" id="id" name="id"/>
                         <div class="form-group">
                             <label for="name">Nome</label>
-                            <input type="text" class="form-control" name="name" id="name"/>
+                            <input type="text" class="form-control" required name="name" id="name"/>
                         </div>
                     </form>
                 </div>
