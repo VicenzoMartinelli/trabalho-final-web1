@@ -8,10 +8,6 @@
 <body>
 <section layout:fragment="conteudo">
 
-    <script th:inline="javascript">
-        const cidades = /*[[${cidades}]]*/ {};
-    </script>
-
     <div class="card container-fluid">
         <div class="card-header" th:text="${pageName}"></div>
         <div class="card-body">
@@ -44,7 +40,7 @@
 
                     <td style="width:200px" class="text-center">
                         <a title="Alterar registro"
-                           th:href="'javascript:editProvider(\'/provider/find/' + ${entity.id} + '\');'"
+                           th:href="'javascript:editProduct(\'/provider/find/' + ${entity.id} + '\');'"
                            class="btn btn-elegant btn-xs"> <i class="fa fa-edit"></i>
                         </a> &nbsp;
                         <a title="Excluir registro" th:href="'javascript:remove('+ ${entity.id} +',\'/provider\');'"
@@ -86,7 +82,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Fornecedor</h3>
+                    <h3>Produto</h3>
 
                     <button id="btnClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                 </div>
@@ -118,27 +114,6 @@
                                     <input type="tel" id="phone" name="phone" class="form-control"
                                            onfocus="onEnter(this)" onblur="onExit(this)" maxlength="15">
                                     <label for="phone" class="">Telefone</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="md-form">
-                            <div class="container-fluid d-grid">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <input class="d-none" id="acCidadeId" name="city" type="number">
-                                        <input autocomplete="off"
-                                               id="acCidade"
-                                               name="cityName"
-                                               type="text"
-                                               class="autoComplete"
-                                        />
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <input type="text" id="burgh" name="burgh" class="form-control"
-                                               onfocus="onEnter(this)" onblur="onExit(this)" maxlength="15">
-                                        <label for="burgh" class="">Bairro</label>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +153,7 @@
         </div>
     </div>
 
-    <script th:src="@{/js/page-scripts/provider.js}"></script>
+    <script th:src="@{/js/page-scripts/product.js}"></script>
 </section>
 </body>
 </html>

@@ -24,7 +24,7 @@ public class UserClient extends User implements Serializable {
     private String cpf;
 
     @ManyToOne()
-    @NotNull(message = "Preencha o campo cidade!")
+    @NotNull(message = "Preencha o campo city!")
     @JoinColumn(name = "city_id", referencedColumnName = "id")
     private City city;
 

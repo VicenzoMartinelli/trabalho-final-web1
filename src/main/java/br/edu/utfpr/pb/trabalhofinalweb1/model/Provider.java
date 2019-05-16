@@ -30,9 +30,9 @@ public class Provider implements Serializable {
     private String cnpj;
 
     @ManyToOne()
-    @NotNull(message = "Preencha o campo cidade!")
+    @NotNull(message = "Preencha o campo city!")
     @JoinColumn(name = "city_id", referencedColumnName = "id")
-    private City cidade;
+    private City city;
 
     @Column(length = 30, nullable = false)
     @NotNull(message = "Preencha o campo telefone!")
@@ -52,7 +52,7 @@ public class Provider implements Serializable {
 
     @Column(nullable = false)
     @NotNull(message = "Preencha o campo Nº !")
-    private Integer addressNumbers;
+    private Integer addressNumber;
 }
 
 

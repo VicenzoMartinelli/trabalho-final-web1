@@ -84,6 +84,6 @@ strong {
     font-size: 21px;
 }
 
-.ui-autocomplete {
-    z-index: 99999;
+.modal-dialog {
+    width: 50% !important;
 }

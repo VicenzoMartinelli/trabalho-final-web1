@@ -522,7 +522,7 @@
     };
 
     $.fn.cleanVal = function () {
-        return this.data('mask').getCleanVal();
+        return this.data('mask') === undefined ? $(this).val() : this.data('mask').getCleanVal();
     };
 
     $.applyDataMask = function (selector) {
