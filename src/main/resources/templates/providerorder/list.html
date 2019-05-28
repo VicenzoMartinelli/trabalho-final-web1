@@ -17,7 +17,7 @@
         <div class="card-body">
             <a data-toggle="modal"
                data-target="#modal-form"
-               class="btn btn-lg btn-elegant">Adicionar Novo <i class="fas fa-plus-circle ml-3"></i></a>
+               class="btn btn-lg btn-elegant">Lançar Pedido de Produtos <i class="fas fa-plus-circle ml-3"></i></a>
         </div>
     </div>
 
@@ -28,32 +28,34 @@
                    class="table  table-striped  table-bordered  table-hover  table-condensed">
                 <thead class="ut-table-header-solid">
                 <tr>
-                    <th width="10%">Código</th>
-                    <th>Nome</th>
-                    <th width="15%">Telefone</th>
-                    <th width="15%">CNPJ</th>
+                    <th width="10%">Data</th>
+                    <th>Descrição</th>
+                    <th width="15%">Usuário</th>
                     <th width="20%">Operações</th>
+                    <th width="15%">Finalizado</th>
+                    <th width="15%">Valor Total</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:id="'row_' + ${entity.id}" th:each="entity: ${list.content}">
-                    <td class="text-center" th:text="${entity.id}"></td>
-                    <td th:text="${entity.name}"></td>
-                    <td th:text="${entity.phone}"></td>
-                    <!--<td th:text="${#cnpjFormatter.format(entity.cnpj)}"></td>-->
-                    <td th:text="${entity.cnpj}"></td>
+                    <td class="text-center" th:text="${entity.data}"></td>
+                    <td th:text="${entity.description}"></td>
+                    <td th:text="${entity.user.name}"></td>
+                    <td th:text="${entity.getTotalValue()}"></td>
+                    <td th:text="${entity.delivered ? 'Sim' : 'Não'}"></td>
 
                     <td style="width:200px" class="text-center">
-                        <a title="Alterar registro"
-                           th:href="'javascript:editProvider(\'/provider/find/' + ${entity.id} + '\');'"
+                        <a title="Finalizar pedido"
+                           th:href="'javascript:editProviderOrder(\'/providerorder/find/' + ${entity.id} + '\');'"
                            class="btn btn-elegant btn-xs"> <i class="fa fa-edit"></i>
                         </a> &nbsp;
-                        <a title="Excluir registro" th:href="'javascript:remove('+ ${entity.id} +',\'/provider\');'"
-                           class="btn btn-elegant btn-xs"><i class="fa fa-trash"></i></a>
+                        <a title="Estornar pedido" th:href="'javascript:remove('+ ${entity.id} +',\'/providerorder\');'"
+                           class="btn btn-elegant btn-xs" th:classappend="${entity.delivered} ? d-none"><i
+                                class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 <tr th:if="${list.empty}">
-                    <td colspan="5">Não encontramos nada aqui :(</td>
+                    <td colspan="6">Não encontramos nada aqui :(</td>
                 </tr>
                 </tbody>
             </table>
@@ -63,17 +65,18 @@
                     <ul class="pagination pg-blue justify-content-center "
                         th:if="${list.totalPages > 0}">
                         <li class="page-item" th:classappend="${list.number + 1 == 1} ? disabled">
-                            <a class="page-link" th:href="@{/provider/(size=${list.size}, page=${list.number})}">Anterior</a>
+                            <a class="page-link" th:href="@{/providerorder/(size=${list.size}, page=${list.number})}">Anterior</a>
                         </li>
                         <li class="page-item" th:classappend="${pageNumber == list.number + 1} ? active"
                             th:each="pageNumber : ${pageNumbers}">
                             <a class="page-link"
-                               th:href="@{/provider/(size=${list.size}, page=${pageNumber})}"
+                               th:href="@{/providerorder/(size=${list.size}, page=${pageNumber})}"
                                th:text="${pageNumber}">
                             </a>
                         </li>
                         <li class="page-item" th:classappend="${list.number + 1 == list.totalPages} ? disabled">
-                            <a class="page-link" th:href="@{/provider/(size=${list.size}, page=${list.number + 2})}">Próxima</a>
+                            <a class="page-link"
+                               th:href="@{/providerorder/(size=${list.size}, page=${list.number + 2})}">Próxima</a>
                         </li>
                     </ul>
                 </nav>
@@ -94,7 +97,7 @@
 
                 <div class="modal-body">
 
-                    <form id="frm" method="POST" class="form-vertical" th:action="@{/provider/add}">
+                    <form id="frm" method="POST" class="form-vertical" th:action="@{/providerorder/add}">
 
                         <input type="hidden" id="id" name="id"/>
 
@@ -180,7 +183,7 @@
         </div>
     </div>
 
-    <script th:src="@{/js/page-scripts/provider.js}"></script>
+    <script th:src="@{/js/page-scripts/providerorder.js}"></script>
 </section>
 </body>
 </html>

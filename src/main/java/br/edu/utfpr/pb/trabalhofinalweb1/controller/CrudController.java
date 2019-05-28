@@ -3,6 +3,7 @@ package br.edu.utfpr.pb.trabalhofinalweb1.controller;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceCrud;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public abstract class CrudController<T, ID extends Serializable> {
 
     protected abstract void addDependenciesObjects(ModelAndView model);
 
-    protected abstract Page<T> getCustomPaginated();
+    protected abstract Page<T> getCustomPaginated(Pageable pageable);
 
     protected abstract String getPageName();
 
@@ -89,9 +90,11 @@ public abstract class CrudController<T, ID extends Serializable> {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
 
-        Optional<Page<T>> opt = Optional.ofNullable(getCustomPaginated());
 
-        Page<T> list = opt.orElse(getService().findAll(PageRequest.of(currentPage - 1, pageSize)));
+        PageRequest pageable = PageRequest.of(currentPage - 1, pageSize);
+        Optional<Page<T>> opt = Optional.ofNullable(getCustomPaginated(pageable));
+
+        Page<T> list = opt.orElse(getService().findAll(pageable));
 
         ModelAndView md = new ModelAndView(this.getUrl() + "/list");
 

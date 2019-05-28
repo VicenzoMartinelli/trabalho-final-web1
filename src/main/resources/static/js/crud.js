@@ -7,16 +7,17 @@ function remove(id, url) {
             type: 'DELETE',
             url: destino,
             success: function () {
-                $('#row_' + id).remove();
-                swal(
-                    'Removido',
-                    'Registro removido com sucesso!',
-                    'success'
-                );
+                swal({
+                    title: 'Removido',
+                    text: 'Registro removido com sucesso!',
+                    type: 'success'
+                }, () => {
+                    window.location.reload();
+                });
             },
             error: () => {
                 swal(
-                    'Errow',
+                    'Erro',
                     'Falha ao remover registro!',
                     'error'
                 );
@@ -114,3 +115,12 @@ function edit(url) {
 
     $("#modal-form").modal();
 }
+
+function onOpenModal() {
+    $('#frm input, #frm textarea, #frm select').val(null);
+}
+
+$(() => {
+    $('[data-toggle="modal"]')
+        .click(onOpenModal);
+});

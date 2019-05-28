@@ -1,0 +1,17 @@
+
+.container-thumbnail {
+    height: 6.5rem !important;
+}
+
+.img-thumbnail {
+    min-width: 11rem !important;
+    width: 11rem !important;
+}
+
+.custom-file-label::after {
+    content: "Enviar";
+}
+
+.custom-file .error {
+    margin-top: 10px;
+}

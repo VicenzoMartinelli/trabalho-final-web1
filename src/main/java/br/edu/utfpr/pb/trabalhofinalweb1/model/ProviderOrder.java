@@ -29,6 +29,9 @@ public class ProviderOrder implements Serializable {
     @Column(nullable = true)
     private boolean delivered;
 
+    @Column(nullable = false, length = 255)
+    private String description;
+
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotNull(message = "Informe o usuário do pedido!")

@@ -1,116 +1,158 @@
-$(() => {
-    document.querySelector("#acCidade").classList.add("out");
-    document.querySelector("#autoComplete_results_list").style.display = "none";
+"use strict";
 
-    $('#cnpj').mask('00.000.000/0000-00', {reverse: true});
-    $('#phone').mask('(00) 00000-0000');
-    $('#cepCode').mask('00000-000');
+const files = [];
 
-    $("#frm").validate({
-        rules: {
-            name: "required",
-            cnpj: {
-                required: true,
-                cnpjBr: true
-            },
-            phone: {
-                required: true
-            },
-            address: "required",
-            burgh: "required",
-            addressNumber: {
-                required: true
-            },
-            cepCode: {
-                required: true,
-                postalcodeBR: true,
-                minlength: 9
-            }
+const previewTemplate = (src) => `<div id="preview" class="file-row template">
+                            <div>
+                                <span class="preview">
+                                    <img src="${src}" id="" data-dz-thumbnail />
+                                </span>
+                            </div>
+                            <div>
+                              <button onclick="return removeImg(this);" type="button" data-dz-remove class="btn btn-danger delete">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <span>Excluir</span>
+                              </button>
+                            </div>
+                          </div>`;
+
+function removeImg(emitter) {
+    let html = emitter.parentElement.parentElement;
+
+    html.remove();
+
+    let item = files.filter((x) => x.previewElement == html)[0];
+
+    files.splice(files.indexOf(item), 1);
+}
+
+$(document).ready(function () {
+
+    $(".file-dropzone").on('dragover', handleDragEnter);
+    $(".file-dropzone").on('dragleave', handleDragLeave);
+    $(".file-dropzone").on('drop', handleDragLeave);
+
+    function handleDragEnter(e) {
+
+        this.classList.add('drag-over');
+    }
+
+    function handleDragLeave(e) {
+
+        this.classList.remove('drag-over');
+    }
+
+    Dropzone.options.formUpload = {
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        acceptedFiles: ".jpeg,.jpg,.png",
+        maxFilesize: 256, // MB
+        maxFiles: 100,
+        paramName: 'file',
+        previewsContainer: ".dropzone-previews",
+        addedfile: function (file) {
+            files.push(file);
+
+
+            file.previewElement = Dropzone.createElement(previewTemplate());
+
+            $(".dropzone-previews").append(file.previewElement);
         },
-        messages: {
-            nome: "Insira seu nome!",
-            email: {
-                required: "Insira um email",
-                email: "Email inválido"
-            },
-            confEmail: {
-                required: "Confirme o email",
-                equalTo: "Os emails não conferem"
-            },
-            address: "Insira o endereço",
-            burgh: "Insira o bairro",
-            addressNumber: {
-                required: 'Informe o nº'
-            },
-            cepCode: {
-                required: "Insira o CEP",
-                postalcodeBR: "CEP inválido",
-                minlength: 'CEP inválido'
-            }
-        },
-        submitHandler: function (form) {
-            form.submit();
-        }
-    });
-});
-
-const autoCompleteJs = new autoComplete({
-    data: {
-        src: cidades,
-        key: ["label"],
-    },
-    selector: "#acCidade",
-    threshold: 3,
-    placeHolder: 'Cidade*',
-    debounce: 200,
-    searchEngine: "loose",
-    highlight: true,
-    maxResults: 3,
-    onSelection: val => {
-        $("#acCidade").val(val.selection.value.label);
-        $("#acCidadeId").val(val.selection.value.value);
     }
 });
 
-document.querySelector("#acCidade").addEventListener('blur', () => {
-    document.querySelector("#autoComplete_results_list").style.display = "none";
-});
-document.querySelector("#acCidade").addEventListener('focus', () => {
-    document.querySelector("#autoComplete_results_list").style.display = "block";
-});
-["focusin", "focusout", "keydown"].forEach(eventType => {
-    document.querySelector("#autoComplete_results_list").addEventListener(eventType, event => {
-        if (eventType === "focusin") {
-            if (event.target && event.target.nodeName === "LI") {
-                document.querySelector("#acCidade").classList.remove("out");
-                document.querySelector("#acCidade").classList.add("in");
-            }
-        } else if (eventType === "focusout" || event.keyCode === 13) {
-            document.querySelector("#acCidade").classList.remove("in");
-            document.querySelector("#acCidade").classList.add("out");
-        }
-    });
-});
+function editProduct(url) {
 
-"use strict";
+    $('#frm input, #frm textarea, #frm select').val(null);
+    clearImageData();
 
-function editProvider(url) {
+
     $.get(
         url,
         function (entity, status) {
             $("#id").val(entity.id);
             $("#name").val(entity.name);
-            $("#acCidadeId").val(entity.city.id);
-            $("#acCidade").val(entity.city.name);
-            $("#address").val(entity.address);
-            $("#addressNumber").val(entity.addressNumber);
-            $("#phone").val(entity.phone);
-            $("#cepCode").val(entity.cepCode);
-            $("#cnpj").val(entity.cnpj);
-            $("#burgh").val(entity.burgh);
+            $("#description").val(entity.description);
+            $("#value").val(entity.value);
+            $("#count").val(entity.value);
+            $("#category").val(entity.category.id);
+            $("#brand").val(entity.brand.id);
+
+            $.each($('#frm input, #frm textarea'), (index, item) => {
+                onEnter(item);
+            });
+
+            entity.urlsImgs.forEach((x) => {
+                $(".dropzone-previews").append(previewTemplate(x));
+                const identifier = x.split('/').pop();
+                const parts = identifier.split("_");
+                const size = parseInt(parts[1]);
+                parts.splice(0, 2);
+                const name = parts.join("_");
+
+                files.push(new File(
+                    [new ArrayBuffer(size)],
+                    name,
+                    {
+                        type: `image/${name.split('.').pop()}`
+                    }));
+            });
         }
     );
 
     $("#modal-form").modal();
 }
 
+function saveProduct(url) {
+    if (!($('#frm').valid())) {
+        swal({
+            title: 'Erro!',
+            text: 'Verifique as informações do seu formulário!',
+            type: 'error',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        return;
+    }
+    var formData = new FormData();
+
+    let fileCount = files.length;
+    if (fileCount > 0) {
+        for (let i = 0; i < fileCount; i++) {
+            formData.append('file', files[i]);
+        }
+    }
+    getCleanFormSerialized('#frm')
+        .forEach(x => {
+            formData.append(x.name, x.value);
+        });
+
+    $.ajax({
+        data: formData,
+        enctype: 'multipart/form-data',
+        type: $('#frm').attr('method'),
+        url: $('#frm').attr('action'),
+        contentType: false,
+        processData: false,
+        success: (e) => {
+            swal({
+                title: 'Salvo!',
+                text: 'Registro Salvo com Sucesso!',
+                type: 'success'
+            }, () => {
+                window.location = url;
+            });
+
+        },
+        error: (e) => {
+            swal('Errou!', 'Falha ao salvaro registro!', 'error');
+        }
+    })
+}
+
+function clearImageData() {
+    while (files.length > 0)
+        files.pop();
+
+    $(".dropzone-previews").empty();
+}

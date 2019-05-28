@@ -1,5 +1,6 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.model;
 
+import br.edu.utfpr.pb.trabalhofinalweb1.converter.BooleanConverter;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,13 +32,24 @@ public class User implements Serializable, UserDetails {
     @NotBlank(message = "Nome de preenchimento obrigatório")
     private String name;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 120, nullable = false)
+    @NotBlank(message = "Email de preenchimento obrigatório")
+    private String email;
+
+    @Column(length = 120, nullable = false)
     @NotBlank(message = "Nome do usuário obrigatório")
     private String username;
+
+    @Convert(converter = BooleanConverter.class)
+    @Column(columnDefinition = "char(1) default 'V'")
+    private boolean enabled;
 
     @Column(length = 512, nullable = false)
     @NotBlank(message = "Senha de preenchimento obrigatório")
     private String password;
+
+    @Column(length = 255, nullable = true)
+    private String imageUrl;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> roles;
@@ -66,7 +78,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
 }

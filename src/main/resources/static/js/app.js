@@ -58,7 +58,8 @@ function openSearch() {
 
 function onEnter(element) {
     if ((element.value !== undefined && element.value.length >= 0) || $(this).attr('placeholder') !== null) {
-        element.parentNode.querySelector("label").classList.add("active");
+        if (element.parentNode.querySelector("label"))
+            element.parentNode.querySelector("label").classList.add("active");
     }
 }
 

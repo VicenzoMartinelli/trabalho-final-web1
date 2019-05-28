@@ -6,6 +6,7 @@ import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceCrud;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,7 +37,7 @@ public class ProviderController extends CrudController<Provider, Integer> {
     }
 
     @Override
-    protected Page<Provider> getCustomPaginated() {
+    protected Page<Provider> getCustomPaginated(Pageable pageable) {
         return null;
     }
 

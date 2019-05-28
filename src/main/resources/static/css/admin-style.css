@@ -85,5 +85,19 @@ strong {
 }
 
 .modal-dialog {
-    width: 50% !important;
+    width: 55% !important;
+}
+
+.active-register {
+    background-color: #0dac4f;
+    border-radius: 1rem;
+    width: 1.5rem;
+    height: 1.3rem;
+}
+
+.inactive-register {
+    background-color: #d50000;
+    border-radius: 1rem;
+    width: 1.5rem;
+    height: 1.3rem;
 }

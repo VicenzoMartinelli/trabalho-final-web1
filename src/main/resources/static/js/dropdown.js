@@ -2,7 +2,6 @@
 
 $(() => {
     $('.dd-allianz .nav-link').click((ev) => {
-        debugger;
         const element = $(ev.currentTarget).parent().find('.dd-allianz-content');
 
         if (element.hasClass('dd-active')) {

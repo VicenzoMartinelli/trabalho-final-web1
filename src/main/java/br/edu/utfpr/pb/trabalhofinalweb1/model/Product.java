@@ -21,7 +21,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 130, nullable = false)
     private String name;
 
     @Column(length = 512, nullable = false)
@@ -46,7 +46,6 @@ public class Product {
     @Column(name = "createdDate", nullable = false)
     private LocalDate createdDate = LocalDate.now();
 
-    @Column(name = "imgs", nullable = false)
+    @Column(name = "imgs", nullable = true)
     private String[] urlsImgs;
-
 }

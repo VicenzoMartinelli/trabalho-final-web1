@@ -5,6 +5,7 @@ import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceBrand;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +33,7 @@ public class BrandController extends CrudController<Brand, Integer> {
     }
 
     @Override
-    protected Page<Brand> getCustomPaginated() {
+    protected Page<Brand> getCustomPaginated(Pageable pageable) {
         return null;
     }
 
