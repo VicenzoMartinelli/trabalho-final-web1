@@ -1,5 +1,5 @@
 $(() => {
-    $('#txtCPF').mask('000.000.000-00', {reverse: true});
+    $('#txtCPF, #cpf').mask('000.000.000-00', {reverse: true});
     $('#txtTelefone').mask('(00) 00000-0000');
     $('#txtCEP').mask('00000-000');
     $('#txtFrete').mask('00000-000');

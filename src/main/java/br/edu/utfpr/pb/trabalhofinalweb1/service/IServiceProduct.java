@@ -7,6 +7,4 @@ import java.io.IOException;
 
 public interface IServiceProduct extends IServiceCrud<Product, Integer> {
     Product saveWithImages(ProductDTO dto) throws IOException;
-
-    ProductDTO findWithImages(Integer id) throws IOException;
 }

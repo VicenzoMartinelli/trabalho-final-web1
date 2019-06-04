@@ -1,5 +1,6 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.service.impl;
 
+import br.edu.utfpr.pb.trabalhofinalweb1.config.Constants;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.Product;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryProduct;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.IServiceProduct;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,9 +23,6 @@ import java.util.stream.Collectors;
 @Service
 public class ServiceProduct extends ServiceCrud<Product, Integer>
         implements IServiceProduct {
-
-    private static final String STORAGE_PATH = "C://Uploads//Products//";
-    private static final String METHOD_SEARCH_IMAGE = "/product/findImage/";
 
     @Autowired
     private RepositoryProduct productRepository;
@@ -60,7 +57,7 @@ public class ServiceProduct extends ServiceCrud<Product, Integer>
         oldUrls.removeAll(sourceImgs);
 
         for (String path : oldUrls) {
-            Files.deleteIfExists(Paths.get(STORAGE_PATH + path));
+            Files.deleteIfExists(Paths.get(Constants.STORAGE_PATH_PRODUCTS + path));
         }
 
         for (MultipartFile file : Arrays.stream(model.getFile())
@@ -68,7 +65,7 @@ public class ServiceProduct extends ServiceCrud<Product, Integer>
                         .anyMatch((img) -> img.equals(getFileIdentifier(x, model.getDomain().getId())))
                 ).collect(Collectors.toList())) {
 
-            Path path = Paths.get(STORAGE_PATH + getFileIdentifier(file, model.getDomain().getId()));
+            Path path = Paths.get(Constants.STORAGE_PATH_PRODUCTS + getFileIdentifier(file, model.getDomain().getId()));
             Files.write(path, file.getBytes());
         }
 
@@ -86,26 +83,10 @@ public class ServiceProduct extends ServiceCrud<Product, Integer>
 
         p.setUrlsImgs(Arrays
                 .stream(p.getUrlsImgs())
-                .map(x -> (METHOD_SEARCH_IMAGE + x))
+                .map(x -> (Constants.PRODUCT_SEARCH_IMAGE + x))
                 .toArray(String[]::new));
 
         return p;
-    }
-
-    @Override
-    public ProductDTO findWithImages(Integer id) throws IOException {
-        ProductDTO a = new ProductDTO();
-        a.setDomain(findOne(id));
-        MultipartFile[] m = new MultipartFile[a.getDomain().getUrlsImgs().length];
-
-        for (int i = 0; i <= m.length; i++) {
-            File file = new File(a.getDomain().getUrlsImgs()[i]);
-        }
-
-        //a.setFile();
-
-        return a;
-
     }
 
     private String getFileIdentifier(MultipartFile x, Integer id) {

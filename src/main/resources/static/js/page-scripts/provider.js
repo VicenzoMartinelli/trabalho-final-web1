@@ -96,6 +96,8 @@ function maskInputs() {
 }
 
 function editProvider(url) {
+    onOpenModal();
+
     $.get(
         url,
         function (entity, status) {

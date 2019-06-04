@@ -4,6 +4,7 @@ import br.edu.utfpr.pb.trabalhofinalweb1.converter.BooleanConverter;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ import java.util.Set;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = 1L;
+    private static final BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder(10);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,14 +44,17 @@ public class User implements Serializable, UserDetails {
 
     @Convert(converter = BooleanConverter.class)
     @Column(columnDefinition = "char(1) default 'V'")
-    private boolean enabled;
+    private boolean enabled = true;
 
-    @Column(length = 512, nullable = false)
-    @NotBlank(message = "Senha de preenchimento obrigatório")
+    @Column(length = 512)
     private String password;
 
     @Column(length = 255, nullable = true)
     private String imageUrl;
+
+    @NotBlank(message = "Preencha o cpf!")
+    @Column(name = "cpf", length = 11, nullable = false)
+    private String cpf;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> roles;
@@ -81,4 +86,7 @@ public class User implements Serializable, UserDetails {
         return enabled;
     }
 
+    public String getEncondedPassword() {
+        return bCrypt.encode(password);
+    }
 }

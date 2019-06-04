@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -18,10 +17,6 @@ import java.io.Serializable;
 @ToString
 public class UserClient extends User implements Serializable {
     private static final long serialVersionUID = 112312315123123L;
-
-    @NotBlank(message = "Preencha o campo cnpj!")
-    @Column(name = "cpf", length = 14, nullable = false)
-    private String cpf;
 
     @ManyToOne()
     @NotNull(message = "Preencha o campo city!")

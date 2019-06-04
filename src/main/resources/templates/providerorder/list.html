@@ -15,9 +15,10 @@
     <div class="card container-fluid">
         <div class="card-header" th:text="${pageName}"></div>
         <div class="card-body">
-            <a data-toggle="modal"
-               data-target="#modal-form"
-               class="btn btn-lg btn-elegant">Lançar Pedido de Produtos <i class="fas fa-plus-circle ml-3"></i></a>
+            <a th:href="@{/providerorder/new}"
+               class="btn btn-lg btn-elegant">
+                Lançar Pedido de Produtos <i class="fas fa-plus-circle ml-3"></i>
+            </a>
         </div>
     </div>
 
@@ -46,11 +47,14 @@
 
                     <td style="width:200px" class="text-center">
                         <a title="Finalizar pedido"
-                           th:href="'javascript:editProviderOrder(\'/providerorder/find/' + ${entity.id} + '\');'"
-                           class="btn btn-elegant btn-xs"> <i class="fa fa-edit"></i>
+                           th:href="'javascript:finalize(\'/providerorder/finalize/' + ${entity.id} + '\');'"
+                           class="btn btn-elegant btn-xs"
+                           th:attrappend="${entity.delivered} ? disabled"
+                        > <i class="fa fa-edit"></i>
                         </a> &nbsp;
-                        <a title="Estornar pedido" th:href="'javascript:remove('+ ${entity.id} +',\'/providerorder\');'"
-                           class="btn btn-elegant btn-xs" th:classappend="${entity.delivered} ? d-none"><i
+                        <a title="Cancelar pedido"
+                           th:href="'javascript:cancelOrder(\'/providerorder/cancel/' + ${entity.id} + '\');'"
+                           class="btn btn-elegant btn-xs" th:attrappend="${entity.delivered} ? disabled"><i
                                 class="fa fa-trash"></i></a>
                     </td>
                 </tr>
@@ -82,103 +86,6 @@
                 </nav>
 
                 <h6>Total de <strong th:text="${totalCount}"></strong> registros</h6>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade modal-form" role="dialog" th:id="modal-form" aria-modal="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Fornecedor</h3>
-
-                    <button id="btnClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                </div>
-
-                <div class="modal-body">
-
-                    <form id="frm" method="POST" class="form-vertical" th:action="@{/providerorder/add}">
-
-                        <input type="hidden" id="id" name="id"/>
-
-                        <p class="text-danger mt-3">Campos com * são obrigatórios</p>
-
-                        <div class="md-form">
-                            <div class="row">
-                                <i class="fa fa-user text-dark col-lg-1" style="font-size: 37px;"></i>
-                                <div class="col-lg-5">
-                                    <input type="text" id="name" name="name" class="form-control" required
-                                           maxlength="130" onfocus="onEnter(this)" onblur="onExit(this)"
-                                           aria-required="true">
-                                    <label for="name" class="">Seu Nome*</label>
-                                </div>
-                                <div class="col-lg-3">
-                                    <input type="text" id="cnpj" name="cnpj" class="form-control" required=""
-                                           onfocus="onEnter(this)" onblur="onExit(this)" maxlength="14"
-                                           aria-required="true">
-                                    <label for="cnpj" class="">CNPJ*</label>
-                                </div>
-                                <div class="col-lg-3">
-                                    <input type="tel" id="phone" name="phone" class="form-control"
-                                           onfocus="onEnter(this)" onblur="onExit(this)" maxlength="15">
-                                    <label for="phone" class="">Telefone</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="md-form">
-                            <div class="container-fluid d-grid">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <input class="d-none" id="acCidadeId" name="city" type="number">
-                                        <input autocomplete="off"
-                                               id="acCidade"
-                                               name="cityName"
-                                               type="text"
-                                               class="autoComplete"
-                                        />
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <input type="text" id="burgh" name="burgh" class="form-control"
-                                               onfocus="onEnter(this)" onblur="onExit(this)" maxlength="15">
-                                        <label for="burgh" class="">Bairro</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="md-form row">
-                            <i class="fa fa-location-arrow text-dark col-lg-1" style="font-size: 41px;"></i>
-                            <div class="col-lg-5">
-                                <input type="text" id="address" name="address" class="form-control"
-                                       onfocus="onEnter(this)"
-                                       onblur="onExit(this)">
-                                <label for="address">Rua*</label>
-                            </div>
-                            <div class="col-lg-3">
-                                <input type="number" id="addressNumber" name="addressNumber" class="form-control"
-                                       min="1"
-                                       onfocus="onEnter(this)" onblur="onExit(this)">
-                                <label for="addressNumber">Número*</label>
-                            </div>
-                            <div class="col-lg-3">
-                                <input type="text" id="cepCode" name="cepCode" class="form-control"
-                                       onfocus="onEnter(this)"
-                                       onblur="onExit(this)" maxlength="9">
-                                <label for="cepCode">CEP*</label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal"
-                            aria-hidden="true">Cancelar
-                    </button>
-
-                    <button type="button" class="btn btn-outline-warning waves-effect" onclick="save('')">
-                        Salvar <i class="far fa-share-square fa-lg"></i>
-                    </button>
-                </div>
             </div>
         </div>
     </div>

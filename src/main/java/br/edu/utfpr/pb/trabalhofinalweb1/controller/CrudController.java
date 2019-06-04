@@ -39,7 +39,7 @@ public abstract class CrudController<T, ID extends Serializable> {
         Object source = null;
 
         try {
-            source = md == null ? ((Class) ((ParameterizedType) this.getClass().
+            source = entity == null ? ((Class) ((ParameterizedType) this.getClass().
                     getGenericSuperclass()).getActualTypeArguments()[0]).newInstance() : entity;
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();

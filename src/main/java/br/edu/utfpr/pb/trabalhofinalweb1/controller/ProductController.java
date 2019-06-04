@@ -1,5 +1,6 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.controller;
 
+import br.edu.utfpr.pb.trabalhofinalweb1.config.Constants;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.Product;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryBrand;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryCategory;
@@ -84,7 +85,7 @@ public class ProductController extends CrudController<Product, Integer> {
 
     @GetMapping(value = "findImage/{imageIdentifier}")
     public ResponseEntity<byte[]> getImage(@PathVariable String imageIdentifier) throws IOException {
-        File img = new File("C://Uploads//Products//" + imageIdentifier);
+        File img = new File(Constants.STORAGE_PATH_PRODUCTS + imageIdentifier);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img)))

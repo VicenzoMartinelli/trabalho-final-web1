@@ -105,11 +105,15 @@ function getCleanFormSerialized(selector) {
 }
 
 function edit(url) {
+    onOpenModal();
+
     $.get(
         url,
         function (entity, status) {
             $("#id").val(entity.id);
             $("#name").val(entity.name);
+
+            onEnter($("#name").get()[0]);
         }
     );
 
@@ -118,9 +122,14 @@ function edit(url) {
 
 function onOpenModal() {
     $('#frm input, #frm textarea, #frm select').val(null);
+
+    let element = $("#frm").find('input')[0];
+
+    if (element) {
+        $(element).focus();
+    }
 }
 
 $(() => {
-    $('[data-toggle="modal"]')
-        .click(onOpenModal);
+    $('[data-toggle="modal"]').click(onOpenModal);
 });

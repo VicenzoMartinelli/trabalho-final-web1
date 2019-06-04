@@ -52,11 +52,15 @@ $(document).ready(function () {
         previewsContainer: ".dropzone-previews",
         addedfile: function (file) {
             files.push(file);
+            debugger;
 
+            var reader = new FileReader();
 
-            file.previewElement = Dropzone.createElement(previewTemplate());
+            reader.onload = function (e) {
+                $(".dropzone-previews").append(previewTemplate(e.target.result));
+            };
 
-            $(".dropzone-previews").append(file.previewElement);
+            reader.readAsDataURL(file);
         },
     }
 });

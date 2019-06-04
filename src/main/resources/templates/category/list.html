@@ -87,9 +87,11 @@
                     <form id="frm" method="POST" class="form-vertical" th:action="@{/category/add}">
 
                         <input type="hidden" id="id" name="id"/>
-                        <div class="form-group">
-                            <label for="name">Nome</label>
-                            <input type="text" required class="form-control" name="name" id="name"/>
+                        <div class="md-form">
+                            <input type="text" id="name" name="name" class="form-control" required
+                                   maxlength="130" onfocus="onEnter(this)" onblur="onExit(this)"
+                                   aria-required="true">
+                            <label for="name" class="">Nome</label>
                         </div>
                     </form>
                 </div>

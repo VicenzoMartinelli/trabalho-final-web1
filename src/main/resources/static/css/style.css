@@ -185,7 +185,7 @@ body {
     content: '';
     display: block;
     width: 0;
-    height: 1px;
+    height: 0.09rem;
     background: #cca910;
     transition: width .3s;
 }
@@ -560,4 +560,8 @@ footer a:hover {
         width: 90% !important;
         margin: auto;
     }
+}
+
+.sa-button-container .confirm {
+    background: #000000 !important;
 }

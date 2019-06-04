@@ -1,4 +1,6 @@
 "use strict";
+let imgAtual;
+
 $(document).ready(function () {
     $("#frm").validate({
         rules: {
@@ -14,7 +16,6 @@ $(document).ready(function () {
                 required: true,
                 cpfBR: true
             },
-            image: 'required',
             email: {
                 required: true,
                 email: true,
@@ -39,7 +40,6 @@ $(document).ready(function () {
                 required: 'Insira o cpf do usuário',
                 cpfBR: 'Insira um cpf válido'
             },
-            image: 'Insira a foto do usuário',
             email: {
                 required: 'Insira o email do usuário',
                 email: 'Insira um email válido',
@@ -58,22 +58,39 @@ $(document).ready(function () {
 });
 
 function editAccount(url) {
-
-    $('#frm input').val(null);
+    onOpenModal();
     clearImageData();
-
+    $('#txtPassword').rules('remove');
 
     $.get(
         url,
         function (entity, status) {
             $("#id").val(entity.id);
+            $("#urlImage").val(entity.imageUrl);
             $("#username").val(entity.username);
             $("#name").val(entity.name);
             $("#txtEmailCad").val(entity.email);
             $("#txtEmailCadConf").val(entity.email);
-            $('#txtCPF').val($('#txtCPF').masked(entity.cpf));
+            $('#cpf').val($('#cpf').masked(entity.cpf));
 
-            $.each($('#frm input, #frm textarea'), (index, item) => {
+            if (entity.imageUrl && entity.imageUrl !== null && entity.imageUrl !== undefined) {
+                $('#img-preview').attr('src', `/account/findImage/${entity.imageUrl}`);
+
+                debugger;
+                const parts = entity.imageUrl.split("_");
+                const size = parseInt(parts[1]);
+                parts.splice(0, 2);
+                const name = parts.join("_");
+
+                imgAtual = new File(
+                    [new ArrayBuffer(size)],
+                    name,
+                    {
+                        type: `image/${name.split('.').pop()}`
+                    });
+            }
+
+            $.each($('#frm input[type=text], #frm input[type=email], #frm input[type=password], #frm textarea'), (index, item) => {
                 onEnter(item);
             });
         }
@@ -93,18 +110,23 @@ function saveAccount(url) {
         });
         return;
     }
+
     var formData = new FormData();
 
     getCleanFormSerialized('#frm')
         .forEach(x => {
             formData.append(x.name, x.value);
         });
+    debugger;
+    formData.append('image', $('#image-input')[0].files[0] || imgAtual);
 
     $.ajax({
         data: formData,
         enctype: 'multipart/form-data',
         type: $('#frm').attr('method'),
         url: $('#frm').attr('action'),
+        async: false,
+        cache: false,
         contentType: false,
         processData: false,
         success: (e) => {
@@ -124,5 +146,21 @@ function saveAccount(url) {
 }
 
 function clearImageData() {
-    $(".img-preview").src('');
+    $("#img-preview").attr("src", "");
 }
+
+$(() => {
+    $('[data-toggle="modal"]').click(() => {
+        clearImageData();
+        $('#txtPassword').rules('add', {
+            required: true,
+            minlength: 3,
+            equalTo: '#txtPasswordConf',
+            messages: {
+                required: 'Insira a senha do usuário',
+                minlength: 'A senha deve ter no mínimo 3 dígitos',
+                equalTo: 'As senhas não conferem'
+            }
+        });
+    });
+});

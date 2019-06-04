@@ -1,8 +1,10 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.model;
 
+import br.edu.utfpr.pb.trabalhofinalweb1.converter.BooleanConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,8 +28,13 @@ public class ProviderOrder implements Serializable {
     @NotNull(message = "Informe a data do pedido!")
     private LocalDate orderDate = LocalDate.now();
 
-    @Column(nullable = true)
+    @Convert(converter = BooleanConverter.class)
+    @Column(nullable = false, columnDefinition = "char(1) default 'V'")
     private boolean delivered;
+
+    @Convert(converter = BooleanConverter.class)
+    @Column(nullable = false, columnDefinition = "char(1) default 'V'")
+    private boolean canceled;
 
     @Column(nullable = false, length = 255)
     private String description;
@@ -42,6 +49,7 @@ public class ProviderOrder implements Serializable {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.LAZY)
     @NotNull(message = "Insira ao menos um produto!")
+    @NotEmpty(message = "Insira ao menos um produto!")
     private List<ProviderOrderItem> orderItems;
 
     public Double getTotalValue() {

@@ -19,4 +19,8 @@ public class ServiceRole extends ServiceCrud<Role, Integer>
         return repositoryRole;
     }
 
+    @Override
+    public Role findAdminRole() {
+        return repositoryRole.findByName("ROLE_ADMIN");
+    }
 }
