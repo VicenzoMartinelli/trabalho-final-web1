@@ -77,21 +77,6 @@ body {
 }
 
 #main div {
-    /*OLD*/
-    /* border-top-right-radius: 175px;
-    border-top-left-radius: 175px;
-    width: 60%;
-    border-bottom-left-radius: 175px;
-    margin: 0 auto;
-    padding-top: 40px;
-    padding-bottom: 37px;
-    padding-left: 0px;
-    font-size: 91px;
-    background-color: #000000;
-    /* color: #ffffff; 
-    font-family: 'Julius Sans One';
-    opacity: 0.94;
-    text-align: center; */
     width: 100%;
     margin: 0 auto;
     height: 100vh;
@@ -564,4 +549,31 @@ footer a:hover {
 
 .sa-button-container .confirm {
     background: #000000 !important;
+}
+
+.label-custom {
+    cursor: text;
+    color: #757575;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+    background-color: #000000;
+}
+
+.datepicker-here{
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    outline: none;
+}
+.datepicker-here:focus{
+    box-shadow: 0 1px 0 0 #b39510 !important;
+    border-bottom: 1px solid #b39510 !important;
+    color: #b39510;
+}
+
+.custom-select:focus{
+    box-shadow: 0 1px 0 0 #b39510 !important;
+    border-bottom: 1px solid #b39510 !important;
+    outline: none;
 }

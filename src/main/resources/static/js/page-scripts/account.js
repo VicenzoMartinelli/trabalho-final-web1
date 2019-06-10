@@ -75,8 +75,6 @@ function editAccount(url) {
 
             if (entity.imageUrl && entity.imageUrl !== null && entity.imageUrl !== undefined) {
                 $('#img-preview').attr('src', `/account/findImage/${entity.imageUrl}`);
-
-                debugger;
                 const parts = entity.imageUrl.split("_");
                 const size = parseInt(parts[1]);
                 parts.splice(0, 2);

@@ -88,6 +88,9 @@ strong {
     width: 55% !important;
 }
 
+.modal-dialog-sm {
+    width: 42% !important;
+}
 .active-register {
     background-color: #0dac4f;
     border-radius: 1rem;

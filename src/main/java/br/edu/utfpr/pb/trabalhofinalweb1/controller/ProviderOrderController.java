@@ -1,9 +1,7 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.controller;
 
 import br.edu.utfpr.pb.trabalhofinalweb1.model.ProviderOrder;
-import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceCity;
-import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceCrud;
-import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceProviderOrder;
+import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +17,9 @@ public class ProviderOrderController extends CrudController<ProviderOrder, Long>
     private ServiceProviderOrder _serviceOrder;
 
     @Autowired
-    private ServiceCity _serviceCity;
+    private ServiceProduct _serviceProducts;
+    @Autowired
+    private ServiceProvider _serviceProvider;
 
     @Override
     protected ServiceCrud getService() {
@@ -33,6 +33,8 @@ public class ProviderOrderController extends CrudController<ProviderOrder, Long>
 
     @Override
     protected void addDependenciesObjects(ModelAndView model) {
+        model.addObject("products", _serviceProducts.findAll());
+        model.addObject("providers", _serviceProvider.findAll());
     }
 
     @Override

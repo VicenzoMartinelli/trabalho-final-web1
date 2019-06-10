@@ -24,6 +24,11 @@ public class ProviderOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne()
+    @JoinColumn(name = "provider_id", referencedColumnName = "id")
+    @NotNull(message = "Informe o fornecedor do pedido!")
+    private Provider provider;
+
     @Column(nullable = false)
     @NotNull(message = "Informe a data do pedido!")
     private LocalDate orderDate = LocalDate.now();

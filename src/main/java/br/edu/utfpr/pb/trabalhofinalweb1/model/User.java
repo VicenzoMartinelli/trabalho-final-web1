@@ -56,7 +56,10 @@ public class User implements Serializable, UserDetails {
     @Column(name = "cpf", length = 11, nullable = false)
     private String cpf;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
     private Set<Role> roles;
 
     @Override
@@ -88,5 +91,10 @@ public class User implements Serializable, UserDetails {
 
     public String getEncondedPassword() {
         return bCrypt.encode(password);
+    }
+
+    @PreRemove
+    private void removePermissions() {
+        this.roles.clear();
     }
 }

@@ -7,7 +7,7 @@
 </head>
 <body>
 <section layout:fragment="conteudo">
-    <div class="card container-fluid">
+    <div class="card container">
         <div class="card-header">
             <h5 class="text-center">
                 Lançamento de Pedido
@@ -20,13 +20,32 @@
 
                 <p class="text-danger mt-3">Campos com * são obrigatórios</p>
 
-                <div class="md-form">
-                    <label th:for="orderDate">Data do pedido*</label>
-                    <input type="text"
-                           class="form-control datepicker"
-                           autocomplete="off"
-                           th:id="orderDate"
-                    />
+                <div class="d-flex my-3 flex-row">
+                    <div class="row flex-fill">
+                        <div class="col-lg-5">
+                            <select id="provider" name="provider"
+                                    class="browser-default custom-select">
+                                <option value="" class="custom-label">Escolha o fornecedor</option>
+                                <option th:each="provider: ${providers}"
+                                        th:value="${provider.id}"
+                                        th:text="${provider.name}"
+                                ></option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <label th:for="orderDate" readonly class="label-custom mr-3">Data do pedido*</label>
+
+                            <input id="orderDate" autocomplete="off" type="text" class="datepicker-here" data-language="pt-BR">
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="delivered" value="delivered">
+                                <label class="custom-control-label label-custom" for="delivered">Pedido entregue</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="md-form">
@@ -34,53 +53,57 @@
                         class="md-textarea w-100"
                         onfocus="onEnter(this)" onblur="onExit(this)"
                         th:id="description"
-                        rows="4">
+                        rows="2">
                 </textarea>
                     <label th:for="description" class="">Descrição do pedido*</label>
                 </div>
 
-                <div class="md-form">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                        <label class="custom-control-label" for="customCheck1">Pedido entregue</label>
+                <label class="label-custom mr-3">Produtos</label>
+                <div class="row">
+                    <div class="col-lg-10 pr-0">
+                        <div class="card flex-fill h-100 w-100">
+                            <div class="container-fluid">
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="card text-white bg-dark pl-2">
+                                            Meu pau de asa (3)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                        </div>
+
                     </div>
-                </div>
-
-                <div class="md-form">
-                    <div class="row">
-                        <div class="col-lg-10">
-
-                        </div>
-                        <div class="col-lg-2">
-                            <a data-toggle="modal"
-                               data-target="#modal-form"
-                               class="btn btn-lg btn-elegant"
-                            >
-                                Adicionar produto <i class="fas fa-plus-circle ml-3"></i>
-                            </a>
-                        </div>
+                    <div class="col-lg-2 d-flex m-0">
+                        <a data-toggle="modal" data-target="#modal-form" class="btn btn-elegant flex-fill m-0">
+                            <i class="fas fa-plus-circle"></i>
+                        </a>
                     </div>
                 </div>
             </form>
         </div>
         <div class="card-footer bg-white">
+            <button type="button" class="btn btn-outline-warning waves-effect float-right"
+                    onclick="saveProviderOrder()">
+                Salvar <i class="far fa-share-square fa-lg"></i>
+            </button>
+
             <a type="button"
-               class="btn btn-outline-danger waves-effect"
+               class="btn btn-outline-danger waves-effect float-right"
                aria-hidden="true"
                th:href="@{/providerorder}"
             >
                 Cancelar
             </a>
-
-            <button type="button" class="btn btn-outline-warning waves-effect float-right"
-                    onclick="saveProviderOrder()">
-                Salvar <i class="far fa-share-square fa-lg"></i>
-            </button>
         </div>
     </div>
 
     <div class="modal fade modal-form" role="dialog" th:id="modal-form" aria-modal="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-sm">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Produto</h3>
@@ -89,84 +112,24 @@
                 </div>
 
                 <div class="modal-body">
-                    <input type="hidden" id="id" name="id"/>
-
-                    <p class="text-danger mt-3">Campos com * são obrigatórios</p>
-
-                    <div class="md-form">
-                        <div class="row">
-                            <i class="fab fa-product-hunt text-dark col-lg-1" style="font-size: 37px;"></i>
-                            <div class="col-lg-11">
-                                <input type="text" id="name" name="name" class="form-control" required
-                                       maxlength="130" onfocus="onEnter(this)" onblur="onExit(this)"
-                                       aria-required="true">
-                                <label for="name" class="">Nome do produto*</label>
-                            </div>
-                        </div>
+                    <div class="row mx-3">
+                        <i class="fas fa-bookmark text-dark col-lg-1 px-0" style="font-size: 37px;"></i>
+                        <select id="product" name="product" class="browser-default custom-select col-lg-11">
+                            <option value="" class="custom-label">Escolha o produto</option>
+                            <option value="1">ASDADAD</option>
+                        </select>
                     </div>
+
                     <div class="md-form">
-                        <div class="row">
-                            <i class="fas fa-align-justify text-dark col-lg-1" style="font-size: 37px;"></i>
-                            <div class="col-lg-11">
-                                    <textarea
-                                            class="md-textarea w-100"
-                                            name="description"
-                                            onfocus="onEnter(this)" onblur="onExit(this)"
-                                            id="description"
-                                            rows="4"
-                                    ></textarea>
-                                <label for="name" class="">Descrição do produto*</label>
+                        <div class="row mx-3">
+                            <i class="fas fa-dollar-sign text-dark col-lg-1 px-0" style="font-size: 41px;"></i>
+                            <div class="col-lg-11 px-0">
+                                <input type="number" id="count" name="count" class="form-control" min="1" onfocus="onEnter(this)" onblur="onExit(this)">
+                                <label for="count" class="">Quantiade inicial*</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="md-form">
-                        <div class="row">
-                            <i class="fas fa-dollar-sign text-dark col-lg-1" style="font-size: 41px;"></i>
-                            <div class="col-lg-11 row pr-0">
-                                <div class="col-lg-6">
-                                    <input type="number" id="value" name="value" class="form-control"
-                                           onfocus="onEnter(this)"
-                                           onblur="onExit(this)">
-                                    <label for="value">Valor*</label>
-                                </div>
-                                <div class="col-lg-6 pr-0">
-                                    <input type="number" id="count" name="count"
-                                           class="form-control"
-                                           min="1"
-                                           onfocus="onEnter(this)" onblur="onExit(this)">
-                                    <label for="count">Quantiade inicial*</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="md-form">
-                        <div class="row">
-                            <i class="fas fa-bookmark text-dark col-lg-1" style="font-size: 37px;"></i>
-                            <select id="category" name="category"
-                                    class="browser-default custom-select col-lg-11">
-                                <option value="" style="color: #2e2e2e">Escolha a categoria</option>
-                                <option th:each="category: ${categories}"
-                                        th:value="${category.id}"
-                                        th:text="${category.name}"
-                                ></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="md-form">
-                        <div class="row">
-                            <i class="fas fa-tags text-dark col-lg-1" style="font-size: 33px;"></i>
-                            <select id="brand" name="brand" class="browser-default custom-select col-lg-11">
-                                <option value=""> (Selecione)</option>
-                                <option th:each="brand: ${brands}"
-                                        th:value="${brand.id}"
-                                        th:text="${brand.name}"
-                                ></option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal"
