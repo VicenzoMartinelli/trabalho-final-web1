@@ -3,6 +3,10 @@
 @import url(https://fonts.googleapis.com/css?family=Julius+Sans+One);
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
 
+:root{
+    --main-gold: #b39510;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -10,7 +14,7 @@ html {
 body {
     font-family: 'Fire Sans';
     background-color: #000000 !important;
-    color: #b39510;
+    color: var(--main-gold);
 }
 
 .error {
@@ -54,7 +58,7 @@ body {
 }
 
 #link-cadastro:hover {
-    color: #b39510 !important;
+    color: var(--main-gold) !important;
 }
 
 #main {
@@ -269,7 +273,7 @@ footer {
 }
 
 footer i {
-    color: #b39510 !important;
+    color: var(--main-gold) !important;
 }
 
 footer div {
@@ -282,7 +286,7 @@ footer div {
 }
 
 footer h5 {
-    border-bottom: 1px solid #b39510;
+    border-bottom: 1px solid var(--main-gold);
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -324,14 +328,14 @@ footer a:hover {
     transition: .1s transform linear, .1s height linear .1s;
     transform: translateX(0);
     height: 100%;
-    border-color: #b39510;
+    border-color: var(--main-gold);
 }
 
 #social a:hover:after {
     transition: .1s transform linear .1s, .1s height linear .1s;
     transform: translateX(0);
     height: 100%;
-    border-color: #b39510;
+    border-color: var(--main-gold);
 }
 
 .list-unstyled {
@@ -401,9 +405,9 @@ footer a:hover {
 .md-form input[type=password]:focus:not([readonly]),
 .md-form input[type=number]:focus:not([readonly]),
 .md-form textarea:focus:not([readonly]) {
-    box-shadow: 0 1px 0 0 #b39510 !important;
-    border-bottom: 1px solid #b39510 !important;
-    color: #b39510;
+    box-shadow: 0 1px 0 0 var(--main-gold) !important;
+    border-bottom: 1px solid var(--main-gold) !important;
+    color: var(--main-gold);
 }
 
 .md-form input[type=text]:focus:not([readonly]) + label,
@@ -412,7 +416,7 @@ footer a:hover {
 .md-form input[type=number]:focus:not([readonly]) + label,
 .md-form input[type=password]:focus:not([readonly]) + label,
 .md-form textarea:focus:not([readonly]) + label {
-    color: #b39510 !important;
+    color: var(--main-gold) !important;
 }
 
 .searching {
@@ -567,13 +571,24 @@ footer a:hover {
     outline: none;
 }
 .datepicker-here:focus{
-    box-shadow: 0 1px 0 0 #b39510 !important;
-    border-bottom: 1px solid #b39510 !important;
-    color: #b39510;
+    box-shadow: 0 1px 0 0 var(--main-gold) !important;
+    border-bottom: 1px solid var(--main-gold) !important;
+    color: var(--main-gold);
 }
 
 .custom-select:focus{
-    box-shadow: 0 1px 0 0 #b39510 !important;
-    border-bottom: 1px solid #b39510 !important;
+    box-shadow: 0 1px 0 0 var(--main-gold) !important;
+    border-bottom: 1px solid var(--main-gold) !important;
     outline: none;
+}
+
+div.datepicker--cell.datepicker--cell-day.-selected-{
+    background: var(--main-gold);
+}
+div.datepicker--cell.datepicker--cell-day.-weekend-.-current-{
+    color: #000000 !important;
+    font-weight: bold;
+}
+div.datepicker--cell.datepicker--cell-day.-weekend-.-current-.-selected-{
+    color: #ffffff !important;
 }

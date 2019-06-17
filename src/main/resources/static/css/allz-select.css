@@ -1,0 +1,12 @@
+.allz-select{
+    padding: 1px;
+    border-bottom: 1px #ced4da solid;
+}
+
+.allz-select > label{
+    margin-bottom: 0;
+}
+
+.allz-select > select{
+    border: none;
+}

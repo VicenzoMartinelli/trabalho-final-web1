@@ -22,6 +22,9 @@ public class ProviderOrderItem implements Serializable {
     @Column(nullable = false)
     private int count;
 
+    @Column(nullable = false)
+    private Double value = 0.0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = true)
     private Product product;

@@ -7,6 +7,8 @@
 </head>
 <body>
 <section layout:fragment="conteudo">
+    <link rel="stylesheet" th:href="@{/css/page-styles/providerorder.css}"/>
+
     <div class="card container">
         <div class="card-header">
             <h5 class="text-center">
@@ -14,7 +16,7 @@
             </h5>
         </div>
         <div class="card-body">
-            <form id="frm" method="POST" class="form-vertical" th:action="@{/providerorder/new}">
+            <form id="frm-order" method="POST" class="form-vertical" th:action="@{/providerorder/new}">
 
                 <input type="hidden" id="id" name="id"/>
 
@@ -22,24 +24,27 @@
 
                 <div class="d-flex my-3 flex-row">
                     <div class="row flex-fill">
-                        <div class="col-lg-5">
-                            <select id="provider" name="provider"
-                                    class="browser-default custom-select">
-                                <option value="" class="custom-label">Escolha o fornecedor</option>
-                                <option th:each="provider: ${providers}"
-                                        th:value="${provider.id}"
-                                        th:text="${provider.name}"
-                                ></option>
-                            </select>
+                        <div class="col-lg-6 mt-lg-0 mt-md-3 mt-sm-3">
+                            <div class="allz-select">
+                                <label class="label-custom">Fornecedor</label>
+                                <select id="provider" name="provider"
+                                        class="browser-default custom-select">
+                                    <option value="" class="custom-label">Escolha o fornecedor</option>
+                                    <option th:each="provider: ${providers}"
+                                            th:value="${provider.id}"
+                                            th:text="${provider.name}"
+                                    ></option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="col-lg-5">
-                            <label th:for="orderDate" readonly class="label-custom mr-3">Data do pedido*</label>
+                        <div class="col-lg-3 mt-lg-0 mt-md-3 mt-sm-3">
+                            <label th:for="orderDate" class="label-custom mb-0">Data do pedido*</label>
 
-                            <input id="orderDate" autocomplete="off" type="text" class="datepicker-here" data-language="pt-BR">
+                            <input id="orderDate" readonly autocomplete="off" type="text" class="datepicker-here pt-3" data-language="pt-BR">
                         </div>
 
-                        <div class="col-lg-2">
+                        <div class="col-lg-3 mt-lg-0 mt-md-3 mt-sm-3 align-self-end">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="delivered" value="delivered">
                                 <label class="custom-control-label label-custom" for="delivered">Pedido entregue</label>
@@ -49,38 +54,53 @@
                 </div>
 
                 <div class="md-form">
-                <textarea
-                        class="md-textarea w-100"
-                        onfocus="onEnter(this)" onblur="onExit(this)"
-                        th:id="description"
-                        rows="2">
-                </textarea>
+                <textarea class="md-textarea w-100" onfocus="onEnter(this)" onblur="onExit(this)" th:id="description"
+                        rows="1"></textarea>
                     <label th:for="description" class="">Descrição do pedido*</label>
                 </div>
 
                 <label class="label-custom mr-3">Produtos</label>
                 <div class="row">
-                    <div class="col-lg-10 pr-0">
+                    <div class="col-10 pr-0">
                         <div class="card flex-fill h-100 w-100">
                             <div class="container-fluid">
 
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="card text-white bg-dark pl-2">
-                                            Meu pau de asa (3)
+                                <div class="row" id="products-container">
+                                    <div class="col-lg-4">
+                                        <div class="card text-white bg-dark pl-2 product-item">
+                                            <p class="p-0">
+                                                Aneis Prada 3312983721371293712983781293
+                                            </p>
+
+                                            <div>
+                                                <span>Unidades: 2</span><br>
+                                                <span>Valor Unitário: R$ 3</span><br>
+                                                <span>Total Produto: R$ 6</span>
+                                            </div>
+                                            <a data-toggle="modal" class="text-white edit">
+                                                <i class="far fa-edit fa-lg"></i>
+                                            </a>
+
+                                            <a class="text-white delete" >
+                                                <i class="far fa-trash-alt fa-lg"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="card-footer">
+                            <div class="card-footer">
+                                Total: R$ <span id="total-produtos">0,00</span>
+                            </div>
                         </div>
-
                     </div>
-                    <div class="col-lg-2 d-flex m-0">
-                        <a data-toggle="modal" data-target="#modal-form" class="btn btn-elegant flex-fill m-0">
-                            <i class="fas fa-plus-circle"></i>
+                    <div class="col-2 d-flex m-0 flex-row-reverse">
+                        <a class="btn btn-elegant m-0 add-product-btn">
+                            <i data-toggle="tooltip" data-placement="left"
+                               title="Adicionar produto"
+                               class="fas fa-plus-circle">
+
+                            </i>
                         </a>
                     </div>
                 </div>
@@ -102,7 +122,7 @@
         </div>
     </div>
 
-    <div class="modal fade modal-form" role="dialog" th:id="modal-form" aria-modal="true">
+    <div class="modal fade frm" role="dialog" th:id="frm" aria-modal="true">
         <div class="modal-dialog modal-dialog-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -124,8 +144,18 @@
                         <div class="row mx-3">
                             <i class="fas fa-dollar-sign text-dark col-lg-1 px-0" style="font-size: 41px;"></i>
                             <div class="col-lg-11 px-0">
-                                <input type="number" id="count" name="count" class="form-control" min="1" onfocus="onEnter(this)" onblur="onExit(this)">
+                                <input id="count" name="count" class="form-control"  type="number" MIN="1" max="1000" step="5" size="6" onfocus="onEnter(this)" onblur="onExit(this)">
                                 <label for="count" class="">Quantiade inicial*</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md-form">
+                        <div class="row mx-3">
+                            <i class="fas fa-dollar-sign text-dark col-lg-1 px-0" style="font-size: 41px;"></i>
+                            <div class="col-lg-11 px-0">
+                                <input type="number" id="value" name="value" class="form-control" min="1" onfocus="onEnter(this)" onblur="onExit(this)">
+                                <label for="count" class="">Valor unitário*</label>
                             </div>
                         </div>
                     </div>
@@ -137,7 +167,7 @@
                     </button>
 
                     <button type="button" class="btn btn-outline-warning waves-effect"
-                            onclick="saveProduct('/product')">
+                            onclick="saveProductOrderItem()">
                         Salvar <i class="far fa-share-square fa-lg"></i>
                     </button>
                 </div>

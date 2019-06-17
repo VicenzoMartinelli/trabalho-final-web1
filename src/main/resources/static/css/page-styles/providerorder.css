@@ -1,0 +1,63 @@
+.product-item:hover {
+    height: 150px;
+}
+
+.product-item {
+    font-family: monospace;
+    height: 40px;
+    transition: height linear 200ms;
+    margin-top: 11px;
+}
+
+.product-item > p {
+    min-height: 50px;
+    max-width: 72%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 97%;
+    line-height: 3em;
+}
+
+.product-item > div {
+    font-size: 0.9em;
+    opacity: 0;
+    display: none !important;
+    max-height: 100px;
+    transition: opacity linear 100ms;
+}
+.product-item:hover > p{
+    color: #d8ba3a !important;
+    line-height: normal;
+    white-space: normal;
+    margin: 6px 0;
+}
+
+.product-item:hover a > .far{
+    color: #d8ba3a !important;
+}
+
+
+.product-item:hover a > .far:hover{
+    transform: scale(1.3);
+}
+
+.product-item:hover > div {
+    opacity: 1;
+    display: block !important;
+}
+.product-item .delete{
+    position: absolute;
+    top: 0.6rem;
+    left: 87%;
+}
+.product-item .edit{
+    position: absolute;
+    top: 0.6rem;
+    left: 75%;
+}
+
+.add-product-btn{
+    padding: 16px 28px !important;
+    max-height: 53px;
+}
