@@ -9,7 +9,7 @@ const order = {
     orderItems: []
 };
 
-const editingItem = {
+let editingItem = {
     id: null,
     count: 0,
     value: 0,
@@ -18,7 +18,7 @@ const editingItem = {
 
 const templateItemElement = (obj) =>
 `<div class="card text-white bg-dark pl-2 product-item">
-    <input type="hidden" value="${obj.product.id}">
+    <input type="hidden" data-product value="${obj.product.id}">
     <p class="p-0">${obj.product.name}</p>
     
     <div>
@@ -26,19 +26,23 @@ const templateItemElement = (obj) =>
         <span>Valor Unitário: R$ ${obj.value}</span><br>
         <span>Total Produto: R$ ${obj.value * obj.count}</span>
     </div>
-    <a href="'javascript:openProductOrderItem(true, this);'"
-       class="text-white edit">
+    <a class="text-white edit" onclick="openProductOrderItem(true, this);">
         <i class="far fa-edit fa-lg"></i>
     </a>
     
-    <a href="'javascript:deleteItem(true, this);'"
-       class="text-white delete">
+    <a class="text-white delete">
         <i class="far fa-trash-alt fa-lg"></i>
     </a>
 </div>`;
 
 $(document).ready(function () {
     $(".add-product-btn").click(() => openProductOrderItem(false, this));
+    $(".edit").click(function(ev) {
+        openProductOrderItem(true, this);
+    });
+    $(".delete").click(function(ev) {
+        deleteProductOrderItem(this);
+    });
 });
 
 function saveProviderOrder() {
@@ -75,7 +79,17 @@ function saveProviderOrder() {
 
 function openProductOrderItem(editing, element) {
     if(editing) {
+        debugger;
+        let id = $(element)
+            .parents('.col-lg-4')
+            .find('[data-product]').val();
 
+
+        editingItem = order.orderItems.filter((x) => x.product.id === id)[0];
+        let { value, count, product } = editingItem;
+        $("#product").val(product.id).focus();
+        $("#count").val(count);
+        $("#value").val(value);
     }else{
         onOpenModal();
     }
@@ -85,22 +99,33 @@ function openProductOrderItem(editing, element) {
 function saveProductOrderItem() {
     let { id } = editingItem.product;
 
+    editingItem.product.id   = $("#product").val();
+    editingItem.product.name = $("#product option:selected").text();
+    editingItem.count        = $("#count").val();
+    editingItem.value        = $("#value").val();
+
     if(id && id > 0)
     {
-
+        order.orderItems[order.orderItems.findIndex((x) => x.product.id == id)] = editingItem;
+        $("input[data-product]")
+            .find(`[value='${id}']`)
+            .prop('outerHTML', templateItemElement(editingItem));
     }
     else{
-        editingItem.product.id   = $("#product").val();
-        editingItem.product.name = $("#product option:selected").text();
-        editingItem.count        = $("#count").val();
-        editingItem.value        = $("#value").val();
         order.orderItems.push(editingItem);
-        $("#products-container").append(`<div class="col-lg-4">${templateItemElement(editingItem)}</div>`)
+        $("#products-container")
+            .append(`<div class="col-lg-4">${templateItemElement(editingItem)}</div>`)
+
     }
+    editingItem = null;
 
     swal({
         title: 'Salvo!',
         text: 'Produto Salvo com Sucesso!',
         type: 'success'
     }, () => $("frm").modal('hide'));
+}
+
+function deleteProductOrderItem(element) {
+
 }
