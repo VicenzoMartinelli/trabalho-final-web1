@@ -16,7 +16,7 @@
             </h5>
         </div>
         <div class="card-body">
-            <form id="frm-order" method="POST" class="form-vertical" th:action="@{/providerorder/new}">
+            <form id="frm-order" method="POST" class="form-vertical" th:action="@{/providerorder/saveProviderOrder}">
 
                 <input type="hidden" id="id" name="id"/>
 
@@ -56,7 +56,7 @@
                 <div class="md-form">
                 <textarea class="md-textarea w-100" onfocus="onEnter(this)" onblur="onExit(this)" th:id="description"
                         rows="1"></textarea>
-                    <label th:for="description" class="">Descrição do pedido*</label>
+                    <label th:for="description" >Descrição do pedido*</label>
                 </div>
 
                 <label class="label-custom mr-3">Produtos</label>
@@ -133,29 +133,42 @@
 
                 <div class="modal-body">
                     <div class="row mx-3">
-                        <i class="fas fa-bookmark text-dark col-lg-1 px-0" style="font-size: 37px;"></i>
-                        <select id="product" name="product" class="browser-default custom-select col-lg-11">
-                            <option value="" class="custom-label">Escolha o produto</option>
-                            <option value="1">ASDADAD</option>
-                        </select>
+                        <span class="col-lg-1 pl-0 text-center align-self-center">
+                            <i class="fas fa-bookmark text-dark fa-2x"></i>
+                        </span>
+                        <div class="col-lg-11 allz-select">
+                            <label class="label-custom">Produto*</label>
+                            <select id="product" name="product"
+                                    class="browser-default custom-select">
+                                <option value="" disabled></option>
+                                <option th:each="product: ${products}"
+                                        th:value="${product.id}"
+                                        th:text="${product.name}"
+                                ></option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="md-form">
                         <div class="row mx-3">
-                            <i class="fas fa-dollar-sign text-dark col-lg-1 px-0" style="font-size: 41px;"></i>
+                            <span class="col-lg-1 pl-0 text-center align-self-center">
+                                <i class="fas fa-calculator text-dark fa-2x"></i>
+                            </span>
                             <div class="col-lg-11 px-0">
                                 <input id="count" name="count" class="form-control"  type="number" MIN="1" max="1000" step="5" size="6" onfocus="onEnter(this)" onblur="onExit(this)">
-                                <label for="count" class="">Quantiade inicial*</label>
+                                <label for="count" >Quantiade inicial*</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="md-form">
                         <div class="row mx-3">
-                            <i class="fas fa-dollar-sign text-dark col-lg-1 px-0" style="font-size: 41px;"></i>
+                            <span class="col-lg-1 pl-0 text-center align-self-center">
+                                <i class="fas fa-dollar-sign text-dark fa-2x"></i>
+                            </span>
                             <div class="col-lg-11 px-0">
                                 <input type="number" id="value" name="value" class="form-control" min="1" onfocus="onEnter(this)" onblur="onExit(this)">
-                                <label for="count" class="">Valor unitário*</label>
+                                <label for="value" >Valor unitário*</label>
                             </div>
                         </div>
                     </div>

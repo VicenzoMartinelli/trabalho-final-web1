@@ -9,12 +9,16 @@ const order = {
     orderItems: []
 };
 
-let editingItem = {
-    id: null,
-    count: 0,
-    value: 0,
-    product: {}
-};
+let editingItem = {};
+
+function resetItem() {
+    editingItem = {
+        id: null,
+        count: 0,
+        value: 0,
+        product: {}
+    };
+}
 
 const templateItemElement = (obj) =>
 `<div class="card text-white bg-dark pl-2 product-item">
@@ -43,24 +47,31 @@ $(document).ready(function () {
     $(".delete").click(function(ev) {
         deleteProductOrderItem(this);
     });
+    resetItem();
 });
 
 function saveProviderOrder() {
-    if (!($('#frm-order').valid())) {
-        swal({
-            title: 'Erro!',
-            text: 'Verifique as informações do seu formulário!',
-            type: 'error',
-            showConfirmButton: false,
-            timer: 1500
-        });
-        return;
-    }
+    // if (!($('#frm-order').valid())) {
+    //     swal({
+    //         title: 'Erro!',
+    //         text: 'Verifique as informações do seu formulário!',
+    //         type: 'error',
+    //         showConfirmButton: false,
+    //         timer: 1500
+    //     });
+    //     return;
+    // }
+debugger;
+    getCleanFormSerialized('#frm').forEach((x) => {
+        debugger;
+        order[x.name] = $(x).val();
+    });
 
     $.ajax({
         type: $('#frm-order').attr('method'),
         url: $('#frm-order').attr('action'),
-        data: getCleanFormSerialized('#frm'),
+        contentType : 'application/json',
+        data : JSON.stringify(order),
         success: (e) => {
             swal({
                 title: 'Salvo!',
@@ -79,7 +90,6 @@ function saveProviderOrder() {
 
 function openProductOrderItem(editing, element) {
     if(editing) {
-        debugger;
         let id = $(element)
             .parents('.col-lg-4')
             .find('[data-product]').val();
@@ -106,10 +116,11 @@ function saveProductOrderItem() {
 
     if(id && id > 0)
     {
+        debugger;
         order.orderItems[order.orderItems.findIndex((x) => x.product.id == id)] = editingItem;
-        $("input[data-product]")
-            .find(`[value='${id}']`)
-            .prop('outerHTML', templateItemElement(editingItem));
+        let parent = $(`input[data-product][value=${id}]`).parent().parent();
+
+        parent.html(templateItemElement(editingItem));
     }
     else{
         order.orderItems.push(editingItem);
@@ -117,13 +128,13 @@ function saveProductOrderItem() {
             .append(`<div class="col-lg-4">${templateItemElement(editingItem)}</div>`)
 
     }
-    editingItem = null;
+    resetItem();
 
     swal({
         title: 'Salvo!',
         text: 'Produto Salvo com Sucesso!',
         type: 'success'
-    }, () => $("frm").modal('hide'));
+    }, () => $("#frm").modal('hide'));
 }
 
 function deleteProductOrderItem(element) {

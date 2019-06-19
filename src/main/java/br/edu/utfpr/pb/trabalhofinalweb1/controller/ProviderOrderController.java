@@ -8,8 +8,10 @@ import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceProviderOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,10 +58,13 @@ public class ProviderOrderController extends CrudController<ProviderOrder, Long>
     }
 
     @PostMapping("saveProviderOrder")
-    public ResponseEntity<?> saveProviderOrder(
-            @RequestBody @Valid ProviderOrder providerOrder
-    )
-    {
-        return null;
+    public ResponseEntity<?> saveJson(@RequestBody @Valid ProviderOrder entity,
+                                      BindingResult result) {
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        getService().save(entity);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
