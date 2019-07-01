@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -100,5 +101,11 @@ public class ServiceUser extends ServiceCrud<User, Long>
 
     private String getFileIdentifier(User user, MultipartFile image) {
         return user.getId() + "_" + image.getSize() + "_" + image.getOriginalFilename();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

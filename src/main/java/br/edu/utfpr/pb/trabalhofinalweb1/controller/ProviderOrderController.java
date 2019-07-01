@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -63,8 +61,30 @@ public class ProviderOrderController extends CrudController<ProviderOrder, Long>
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        getService().save(entity);
+        _serviceOrder.save(entity);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("saveDeliveredOrder/{id}")
+    public ResponseEntity<?> saveDelivered(
+            @PathVariable("id") Long id){
+        if(id != null && id != 0)
+        {
+            _serviceOrder.setDeliveredAndSave(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("saveCanceledOrder/{id}")
+    public ResponseEntity<?> saveCanceled(
+            @PathVariable("id") Long id){
+        if(id != null && id != 0)
+        {
+            _serviceOrder.setCanceledAndSave(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

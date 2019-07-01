@@ -12,4 +12,6 @@ public interface IServiceUser extends IServiceCrud<User, Long> {
     Page<User> findByRoleAdmin(Pageable pageable);
 
     User saveWithImage(User user, MultipartFile image) throws IOException;
+
+    User findByUsername(String username);
 }

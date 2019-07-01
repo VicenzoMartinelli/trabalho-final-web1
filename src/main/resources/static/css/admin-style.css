@@ -6,6 +6,11 @@
     padding: 2% 4%;
     color: #000000;
     font-family: 'Open Sans';
+    min-height: 93vh !important;
+}
+
+footer {
+    min-height: 3.5vh !important;
 }
 
 #conteudo > .card {
@@ -107,4 +112,11 @@ strong {
 
 [type=reset], [type=submit], button, html [type=button] {
     -webkit-appearance: initial !important;
+}
+
+.appName{
+    color : #a200ff;
+    font-weight : bold;
+    text-align:center;
+    font-family: "Times New Roman", Georgia, Serif;
 }

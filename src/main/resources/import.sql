@@ -5609,3 +5609,12 @@ INSERT INTO user_roles(user_id, roles_id) VALUES (1, 1);
 INSERT INTO user_roles(user_id, roles_id) VALUES (1, 2);
 INSERT INTO user_roles(user_id, roles_id) VALUES (1, 3);
 INSERT INTO user_roles(user_id, roles_id) VALUES (2, 2);
+
+INSERT INTO category (name) VALUES ('Relógios');
+INSERT INTO category (name) VALUES ('Óculos');
+INSERT INTO category (name) VALUES ('Carteiras');
+INSERT INTO category (name) VALUES ('Aneis');
+
+INSERT INTO brand (name) VALUES ('RayBan');
+INSERT INTO brand (name) VALUES ('MultiLex');
+INSERT INTO brand (name) VALUES ('Razer');

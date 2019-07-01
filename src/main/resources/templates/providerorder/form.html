@@ -8,6 +8,62 @@
 <body>
 <section layout:fragment="conteudo">
     <link rel="stylesheet" th:href="@{/css/page-styles/providerorder.css}"/>
+    <style type="text/css">
+        disintegration-container {
+            pointer-events: none;
+        }
+        .disintegration-container > canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: opacity 1s ease-out, -webkit-transform 1s ease-out;
+            transition: transform 1s ease-out, opacity 1s ease-out;
+            transition: transform 1s ease-out, opacity 1s ease-out, -webkit-transform 1s ease-out;
+            opacity: 1;
+            -webkit-transform: rotate(0deg) translate(0px, 0px) rotate(0deg);
+            transform: rotate(0deg) translate(0px, 0px) rotate(0deg);
+        }
+
+        @-webkit-keyframes debug-pulse {
+            0% {
+                -webkit-filter: none;
+                filter: none;
+            }
+            95% {
+                -webkit-filter: none;
+                filter: none;
+            }
+            95% {
+                -webkit-filter: drop-shadow(0 1px 0 red);
+                filter: drop-shadow(0 1px 0 red);
+            }
+            100% {
+                -webkit-filter: drop-shadow(0 1px 0 red);
+                filter: drop-shadow(0 1px 0 red);
+            }
+        }
+
+        @keyframes debug-pulse {
+            0% {
+                -webkit-filter: none;
+                filter: none;
+            }
+            95% {
+                -webkit-filter: none;
+                filter: none;
+            }
+            95% {
+                -webkit-filter: drop-shadow(0 1px 0 red);
+                filter: drop-shadow(0 1px 0 red);
+            }
+            100% {
+                -webkit-filter: drop-shadow(0 1px 0 red);
+                filter: drop-shadow(0 1px 0 red);
+            }
+        }
+    </style>
+
+
 
     <div class="card container">
         <div class="card-header">
@@ -41,12 +97,12 @@
                         <div class="col-lg-3 mt-lg-0 mt-md-3 mt-sm-3">
                             <label th:for="orderDate" class="label-custom mb-0">Data do pedido*</label>
 
-                            <input id="orderDate" readonly autocomplete="off" type="text" class="datepicker-here pt-3" data-language="pt-BR">
+                            <input id="orderDate" name="orderDate" readonly autocomplete="off" type="text" class="datepicker-here pt-3 w-100" data-language="pt-BR">
                         </div>
 
                         <div class="col-lg-3 mt-lg-0 mt-md-3 mt-sm-3 align-self-end">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="delivered" value="delivered">
+                                <input type="checkbox" class="custom-control-input" id="delivered" name="delivered">
                                 <label class="custom-control-label label-custom" for="delivered">Pedido entregue</label>
                             </div>
                         </div>
@@ -54,7 +110,7 @@
                 </div>
 
                 <div class="md-form">
-                <textarea class="md-textarea w-100" onfocus="onEnter(this)" onblur="onExit(this)" th:id="description"
+                <textarea class="md-textarea w-100" onfocus="onEnter(this)" onblur="onExit(this)" name="description" th:id="description"
                         rows="1"></textarea>
                     <label th:for="description" >Descrição do pedido*</label>
                 </div>
@@ -66,26 +122,7 @@
                             <div class="container-fluid">
 
                                 <div class="row" id="products-container">
-                                    <div class="col-lg-4">
-                                        <div class="card text-white bg-dark pl-2 product-item">
-                                            <p class="p-0">
-                                                Aneis Prada 3312983721371293712983781293
-                                            </p>
 
-                                            <div>
-                                                <span>Unidades: 2</span><br>
-                                                <span>Valor Unitário: R$ 3</span><br>
-                                                <span>Total Produto: R$ 6</span>
-                                            </div>
-                                            <a data-toggle="modal" class="text-white edit">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-
-                                            <a class="text-white delete" >
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -143,6 +180,7 @@
                                 <option value="" disabled></option>
                                 <option th:each="product: ${products}"
                                         th:value="${product.id}"
+                                        th:price="${product.value}"
                                         th:text="${product.name}"
                                 ></option>
                             </select>
@@ -188,7 +226,9 @@
         </div>
     </div>
 
+    <script th:src="@{/js/desintegrator.js}"></script>
     <script th:src="@{/js/page-scripts/providerorder.js}"></script>
+
 </section>
 </body>
 </html>

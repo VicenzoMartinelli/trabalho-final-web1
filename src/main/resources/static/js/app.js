@@ -57,6 +57,7 @@ function openSearch() {
 }
 
 function onEnter(element) {
+    debugger;
     if ((element.value !== undefined && element.value.length >= 0) || $(this).attr('placeholder') !== null) {
         if (element.parentNode.querySelector("label"))
             element.parentNode.querySelector("label").classList.add("active");

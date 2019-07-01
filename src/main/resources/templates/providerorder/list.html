@@ -32,30 +32,34 @@
                     <th width="10%">Data</th>
                     <th>Descrição</th>
                     <th width="15%">Usuário</th>
-                    <th width="20%">Operações</th>
-                    <th width="15%">Finalizado</th>
                     <th width="15%">Valor Total</th>
+                    <th width="10%">Finalizado</th>
+                    <th width="20%">Operações</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:id="'row_' + ${entity.id}" th:each="entity: ${list.content}">
-                    <td class="text-center" th:text="${entity.data}"></td>
+                    <td class="text-center" th:text="${#temporals.format(entity.orderDate, 'dd/MM/yyyy')}"></td>
                     <td th:text="${entity.description}"></td>
                     <td th:text="${entity.user.name}"></td>
-                    <td th:text="${entity.getTotalValue()}"></td>
-                    <td th:text="${entity.delivered ? 'Sim' : 'Não'}"></td>
+                    <td th:text="${'R$ ' + #numbers.formatDecimal(entity.getTotalValue(), 0, 'POINT', 2, 'COMMA')}" ></td>
+                    <td class="text-center">
+                        <i th:if="${entity.delivered}" class="fas fa-check-double"></i>
+                        <i th:unless="${entity.delivered}" class="fas fa-minus"></i>
+                    </td>
 
-                    <td style="width:200px" class="text-center">
-                        <a title="Finalizar pedido"
-                           th:href="'javascript:finalize(\'/providerorder/finalize/' + ${entity.id} + '\');'"
+                    <td class="text-center">
+                        <a title="Marcar como entregue" data-toggle="tooltip"
+                           th:href="'javascript:finalize(\'/providerorder/saveDeliveredOrder/' + ${entity.id} + '\', ' + ${entity.delivered} + ');'"
                            class="btn btn-elegant btn-xs"
-                           th:attrappend="${entity.delivered} ? disabled"
-                        > <i class="fa fa-edit"></i>
+                        > <i class="fas fa-truck"></i>
                         </a> &nbsp;
-                        <a title="Cancelar pedido"
-                           th:href="'javascript:cancelOrder(\'/providerorder/cancel/' + ${entity.id} + '\');'"
-                           class="btn btn-elegant btn-xs" th:attrappend="${entity.delivered} ? disabled"><i
-                                class="fa fa-trash"></i></a>
+
+                        <a title="Cancelar pedido" data-toggle="tooltip"
+                           th:href="'javascript:cancelOrder(\'/providerorder/saveCanceledOrder/' + ${entity.id} + '\', ' + ${entity.delivered} + ');'"
+                           class="btn btn-elegant btn-xs">
+                            <i class="fa fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
                 <tr th:if="${list.empty}">
