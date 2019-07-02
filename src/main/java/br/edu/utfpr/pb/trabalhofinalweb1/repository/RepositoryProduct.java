@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RepositoryProduct extends JpaRepository<Product, Integer> {
+
     Page<Product> findAllByOrderByNameAsc(Pageable pageable);
 
+    Page<Product> findAllByCategoryIdOrderByValueDesc(Integer id, Pageable pageable);
 }

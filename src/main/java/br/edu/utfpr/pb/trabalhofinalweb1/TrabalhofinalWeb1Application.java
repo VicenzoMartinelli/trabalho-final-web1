@@ -33,9 +33,4 @@ public class TrabalhofinalWeb1Application {
     public SpringSecurityDialect securityDialect() {
         return new SpringSecurityDialect();
     }
-
-//	@Bean
-//	public AuditorAware<User> auditorProvider() {
-//		return new CrudAuditorAware();
-//	}
 }

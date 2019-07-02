@@ -4,6 +4,7 @@ import br.edu.utfpr.pb.trabalhofinalweb1.converter.Base64Converter;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.impl.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String admin = "ADMIN";
         http.csrf().disable()
 
                 .exceptionHandling()
@@ -41,11 +43,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/home?n=0&m=" + _cv64.encode("LogOut realizado com sucesso!"))
                 .logoutUrl("/auth/logout")
                 .and().authorizeRequests()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/brand/**").hasAnyRole("ADMIN")
-                .antMatchers("/category/**").hasAnyRole("ADMIN")
-                .antMatchers("/provider/**").hasAnyRole("ADMIN")
-                .antMatchers("/product/**").hasAnyRole("ADMIN");
+                .antMatchers("/admin/**").hasAnyRole(admin)
+                .antMatchers("/brand/**").hasAnyRole(admin)
+                .antMatchers("/category/**").hasAnyRole(admin)
+                .antMatchers("/provider/**").hasAnyRole(admin)
+                .antMatchers("/product/page", "/product/list",
+                        "/product/new", "/product/addproduct", "/product/add").hasAnyRole(admin)
+                .antMatchers(HttpMethod.DELETE, "/product/**").hasAnyRole(admin);
     }
 
     @Override

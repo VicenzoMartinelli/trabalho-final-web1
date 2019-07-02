@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout-padrao}">
+<head>
+</head>
+<body>
+<section layout:fragment="conteudo">
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+    <div th:replace="profile/form-profile-fragment.html :: form-profile">
+
+    </div>
+    <script>client = true;</script>
+</section>
+</body>
+</html>

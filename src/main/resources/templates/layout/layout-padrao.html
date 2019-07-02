@@ -10,8 +10,8 @@
 
         <title>UTFPR</title>
 
+        <script type="text/javascript" th:src="@{/vendors/jquery/jquery.js}"></script>
         <link rel="shortcut icon" th:href="@{/images/favicon.ico}"/>
-
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
               integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
               crossorigin="anonymous">
@@ -22,6 +22,7 @@
         <link rel="stylesheet" th:href="@{/css/style.css}"/>
         <link rel="stylesheet" th:href="@{/vendors/sweetalert/sweetalert.css}"/>
         <link rel="stylesheet" th:href="@{/vendors/bootstrap-datepicker/css/bootstrap-datepicker.min.css}"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.22.0/slimselect.min.css" rel="stylesheet"></link>
     </head>
 
     <body>
@@ -51,16 +52,16 @@
 
                     <ul class="navbar-nav col-lg-6">
                         <li>
-                            <a href="shop-aneis.html" class="nav-link">Anéis</a>
+                            <a th:href="@{/product/shop/4}" class="nav-link">Anéis</a>
                         </li>
                         <li>
-                            <a href="shop-relogios.html" class="nav-link">Relógios</a>
+                            <a th:href="@{/product/shop/1}" class="nav-link">Relógios</a>
                         </li>
                         <li>
-                            <a href="shop-oculos.html" class="nav-link">Oculós</a>
+                            <a th:href="@{/product/shop/2}"  class="nav-link">Oculós</a>
                         </li>
                         <li>
-                            <a href="shop-carteiras.html" class="nav-link">Carteiras</a>
+                            <a th:href="@{/product/shop/3}" class="nav-link">Carteiras</a>
                         </li>
                     </ul>
 
@@ -106,13 +107,13 @@
                                     <i class="fa fa-search"></i>
                                 </a>
                             </div>
+                        </form>
                     </div>
-                    </form>
                 </div>
             </nav>
         </div>
 
-        <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        <div class="modal fade" id="modal-login" tabindex="-1" role="dialog"
              aria-hidden="true">
             <div class="modal-dialog modal-notify modal-warning" role="document">
                 <div class="modal-content">
@@ -123,137 +124,39 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark active" id="login-tab" data-toggle="tab" href="#entrar"
-                                   role="tab" aria-controls="entrar" aria-selected="true">Entrar
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" id="signup-tab" data-toggle="tab" href="#signup"
-                                   role="tab"
-                                   aria-controls="profile" aria-selected="false">Cadastrar-se
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <form class="tab-pane fade show active" th:action="@{/auth}"
-                                  method="POST" id="entrar" role="tabpanel" aria-labelledby="login-tab">
-                                <div class="md-form mb-5">
-                                    <i class="fa fa-envelope prefix text-dark"></i>
-                                    <input autocomplete="off" type="text" id="username" name="username"
-                                           class="form-control"
-                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                    <label for="username">Seu usuário</label>
-                                </div>
-                                <div class="md-form">
-                                    <i class="fa fa-lock prefix text-dark" style="font-size: 41px"></i>
-                                    <input autocomplete="off" type="password" id="password" name="password"
-                                           class="form-control"
-                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                    <label for="password">Sua senha</label>
-                                </div>
+                        <form class="form-vertical" th:action="@{/auth}"
+                              method="POST" id="entrar" >
+                            <div class="md-form mb-5">
+                                <i class="fa fa-envelope prefix text-dark"></i>
+                                <input autocomplete="off" type="text" id="username" name="username"
+                                       class="form-control"
+                                       onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                <label for="username">Seu usuário</label>
+                            </div>
+                            <div class="md-form">
+                                <i class="fa fa-lock prefix text-dark" style="font-size: 41px"></i>
+                                <input autocomplete="off" type="password" id="password" name="password"
+                                       class="form-control"
+                                       onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                <label for="password">Sua senha</label>
+                            </div>
 
-                                <div class="modal-footer justify-content-center">
-                                    <a href="#" class="btn btn-outline-warning" onclick="return submitForm(this);">
-                                        Entrar
-                                        <i
-                                                class="fa fa-arrow-right ml-1" style="color: inherit"></i>
-                                    </a>
-                                </div>
-                            </form>
-                            <form class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-
-                                <p class="text-danger mt-3">Campos com * são obrigatórios</p>
-
-                                <div class="md-form">
-                                    <div class="row">
-                                        <i class="fa fa-user text-dark col-lg-1" style="font-size: 37px;"></i>
-                                        <div class="col-lg-5">
-                                            <input type="text" id="txtName" name="nome" class="form-control" required
-                                                   maxlength="130" onfocus="onEnter(this)" onblur="onExit(this)">
-                                            <label for="txtName" class="">Seu Nome*</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input type="text" id="txtCPF" name="cpf" class="form-control" required
-                                                   onfocus="onEnter(this)" onblur="onExit(this)">
-                                            <label for="txtCPF" class="">CPF*</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input type="tel" id="txtTelefone" name="telefone" class="form-control"
-                                                   onfocus="onEnter(this)" onblur="onExit(this)">
-                                            <label for="txtTelefone" class="">Telefone</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="md-form">
-                                    <div class="row">
-                                        <i class="fa fa-envelope text-dark col-lg-1" style="font-size: 33px;"></i>
-                                        <div class="col-lg-5">
-                                            <input type="email" id="txtEmailCad" name="email" class="form-control"
-                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                            <label for="txtEmailCad">Seu email*</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <input type="email" id="txtEmailCadConf" name="confEmail"
-                                                   class="form-control"
-                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                            <label for="txtEmailCadConf">Confirme*</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="md-form">
-                                    <div class="row">
-                                        <i class="fa fa-lock text-dark col-lg-1" style="font-size: 41px;"></i>
-                                        <div class="col-lg-5">
-                                            <input type="password" id="txtSenhaCad" name="senha" class="form-control"
-                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                            <label for="txtSenhaCad">Sua senha*</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <input type="password" id="txtSenhaConf" name="confSenha"
-                                                   class="form-control"
-                                                   onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                            <label for="txtSenhaConf">Confirme a senha*</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="md-form row">
-                                    <i class="fa fa-location-arrow text-dark col-lg-1" style="font-size: 41px;"></i>
-                                    <div class="col-lg-5">
-                                        <input type="text" id="txtRua" name="rua" class="form-control"
-                                               onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                        <label for="txtRua">Rua*</label>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input type="number" id="txtRuaNumero" name="endenumero" class="form-control"
-                                               min="1" onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                        <label for="txtRuaNumero">Número*</label>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input type="text" id="txtCEP" name="cep" class="form-control"
-                                               onfocus="onEnter(this)" onblur="onExit(this)"/>
-                                        <label for="txtCEP">CEP*</label>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer justify-content-center">
-                                    <a href="#" onclick="return submitForm(this);" class="btn btn-outline-warning"
-                                       id="subCadastro">Cadastrar-se
-                                        <i class="fa fa-plus-circle ml-1" style="color: inherit"></i>
-                                    </a>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="form-group d-flex justify-content-center">
+                                <a href="#" class="btn btn-lg btn-outline-warning" onclick="return submitForm(this);">
+                                    Entrar <i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex flex-column align-items-start">
+                        <p class="label-custom">Não possui uma conta?</p>
+                        <a class="btn btn-lg btn-outline-warning btn-outline-black w-50"
+                           th:href="@{/profile/newclientprofile}">Cadastrar-se</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <section class="ut-layout-content" layout:fragment="conteudo">
+        <section id="conteudo" layout:fragment="conteudo">
             As págias serão carregadas aqui...
         </section>
 
@@ -547,8 +450,6 @@
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript" th:src="@{/vendors/jquery/jquery.js}"></script>
         <script type="text/javascript"
                 src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script type="text/javascript" th:src="@{/vendors/sweetalert/sweetalert-dev.js}"></script>
@@ -557,7 +458,7 @@
         <script type="text/javascript" th:src="@{/vendors/jquery/mask/jquery.mask.js}"></script>
         <script type="text/javascript" th:src="@{/vendors/jquery/validate/jquery.validate.min.js}"></script>
         <script type="text/javascript" th:src="@{/vendors/jquery/validate/additional-methods.min.js}"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.22.0/slimselect.min.js"></script>
         <script type="text/javascript" th:src="@{/js/dropdown.js}"></script>
         <script type="text/javascript" th:src="@{/js/base64.js}"></script>
         <script type="text/javascript" th:src="@{/js/app.js}"></script>

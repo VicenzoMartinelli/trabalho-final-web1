@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+    <div th:fragment="form-profile">
+        <style>
+            #form-container{
+                background: #fff !important;
+                width: 100%;
+                margin: 6rem 0;
+                padding: 1rem 0;
+            }
+            .ss-main .ss-single-selected{
+                height: 50px !important;
+            }
+        </style>
+        <div id="form-container">
+            <link rel="stylesheet" th:href="@{/css/page-styles/account-style.css}"/>
+
+            <div class="card container">
+                <div class="card-header">
+                    <h5 class="text-center">
+                        Mantenha seus dados atualizados
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="frm" class="form-vertical" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" id="id" name="id"/>
+                        <input type="hidden" id="urlImage" name="imageUrl"/>
+
+                        <p class="text-danger mt-3">Campos com * são obrigatórios</p>
+
+                        <div class="md-form">
+                            <div class="row">
+                                <i class="fa fa-user text-dark col-lg-1" style="font-size: 37px;"></i>
+                                <div class="col-lg-5">
+                                    <div class="md-form mt-0">
+                                        <input type="text" id="name" name="name" class="form-control" required
+                                               maxlength="130" onfocus="onEnter(this)" onblur="onExit(this)">
+                                        <label for="name">Seu Nome*</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <input type="text" id="username" name="username" class="form-control"
+                                               required
+                                               maxlength="130" onfocus="onEnter(this)" onblur="onExit(this)">
+                                        <label for="username">Login do sistema*</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input type="text" id="cpf" name="cpf" class="form-control" required
+                                               onfocus="onEnter(this)" onblur="onExit(this)">
+                                        <label for="cpf" class="">CPF*</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="container-fluid d-flex justify-content-center align-itens-center flex-column">
+                                        <div class="container-fluid text-center container-thumbnail">
+                                            <img id="img-preview" title="Imagem" class="img-thumbnail"/>
+                                        </div>
+                                        <div class="custom-file mt-3">
+                                            <input type="file" class="custom-file-input" name="image" id="image-input">
+                                            <label class="custom-file-label" for="image-input"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md-form">
+                            <div class="row">
+                                <i class="fa fa-envelope text-dark col-lg-1" style="font-size: 33px;"></i>
+                                <div class="col-lg-5">
+                                    <input type="email" id="txtEmailCad" name="email" class="form-control"
+                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                    <label for="txtEmailCad">Seu email*</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" id="txtEmailCadConf" name="confEmail"
+                                           class="form-control"
+                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                    <label for="txtEmailCadConf">Confirme*</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md-form">
+                            <div class="row">
+                                <i class="fa fa-lock text-dark col-lg-1" style="font-size: 41px;"></i>
+                                <div class="col-lg-5">
+                                    <input type="password" id="txtPassword" name="password" class="form-control"
+                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                    <label for="txtPassword">Sua password*</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="password" id="txtPasswordConf" name="passwordConf"
+                                           class="form-control"
+                                           onfocus="onEnter(this)" onblur="onExit(this)"/>
+                                    <label for="txtPasswordConf">Confirme a password*</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md-form" allc-client-only>
+                            <div class="container-fluid d-grid">
+                                <div class="row">
+                                    <div class="col-lg-6 d-flex flex-row">
+                                        <span class="pr-4"><i class="fas fa-city " style="font-size: 41px;"></i></span>
+                                        <div style="width: inherit; ">
+                                            <select id="city" name="city">
+                                                <option value="">Escolha a cidade</option>
+                                                <option th:each="city: ${cidades}"
+                                                        th:value="${city.value}"
+                                                        th:text="${city.label}"
+                                                        class="text-dark"
+                                                >
+
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" id="burgh" name="burgh" class="form-control"
+                                               onfocus="onEnter(this)" onblur="onExit(this)" maxlength="15">
+                                        <label for="burgh" class="">Bairro</label>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="tel" id="phone" name="phone" class="form-control"
+                                               onfocus="onEnter(this)" onblur="onExit(this)" maxlength="15">
+                                        <label for="phone" class="">Telefone</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md-form row" allc-client-only>
+                            <i class="fa fa-location-arrow text-dark col-lg-1" style="font-size: 41px;"></i>
+                            <div class="col-lg-5">
+                                <input type="text" id="address" name="address" class="form-control"
+                                       onfocus="onEnter(this)"
+                                       onblur="onExit(this)">
+                                <label for="address">Rua*</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input type="number" id="addressNumber" name="addressNumber" class="form-control"
+                                       min="1"
+                                       onfocus="onEnter(this)" onblur="onExit(this)">
+                                <label for="addressNumber">Número*</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input type="text" id="cepCode" name="cepCode" class="form-control"
+                                       onfocus="onEnter(this)"
+                                       onblur="onExit(this)" maxlength="9">
+                                <label for="cepCode">CEP*</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="button" class="btn btn-outline-warning waves-effect float-right"
+                            onclick="saveProfile('/saveProfile')">
+                        Salvar <i class="far fa-share-square fa-lg"></i>
+                    </button>
+
+                    <a type="button"
+                       class="btn btn-outline-danger waves-effect float-right"
+                       aria-hidden="true"
+                       onclick="returnToIndex();"
+                    >
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+
+            <script th:src="@{/js/page-scripts/profile.js}"></script>
+        </div>
+    </div>
+</body>
+</html>

@@ -78,7 +78,7 @@ function editProduct(url) {
             $("#name").val(entity.name);
             $("#description").val(entity.description);
             $("#value").val(entity.value);
-            $("#count").val(entity.value);
+            $("#count").val(entity.count);
             $("#category").val(entity.category.id);
             $("#brand").val(entity.brand.id);
 

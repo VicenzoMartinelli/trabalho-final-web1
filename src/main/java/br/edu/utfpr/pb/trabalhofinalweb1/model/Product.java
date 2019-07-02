@@ -1,5 +1,9 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.model;
 
+import br.edu.utfpr.pb.trabalhofinalweb1.converter.formatter.LocalDateDeserializer;
+import br.edu.utfpr.pb.trabalhofinalweb1.converter.formatter.LocalDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,6 +48,8 @@ public class Product {
     private Brand brand;
 
     @Column(name = "createdDate", nullable = false)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate createdDate = LocalDate.now();
 
     @Column(name = "imgs", nullable = true)

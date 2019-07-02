@@ -5,6 +5,7 @@
 
 .img-thumbnail {
     min-width: 11rem !important;
+    max-height: 8rem;
     width: 11rem !important;
 }
 

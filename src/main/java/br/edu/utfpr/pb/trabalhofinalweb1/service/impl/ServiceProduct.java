@@ -6,6 +6,8 @@ import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryProduct;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.IServiceProduct;
 import br.edu.utfpr.pb.trabalhofinalweb1.viewmodel.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,5 +93,9 @@ public class ServiceProduct extends ServiceCrud<Product, Integer>
 
     private String getFileIdentifier(MultipartFile x, Integer id) {
         return id + "_" + x.getSize() + "_" + x.getOriginalFilename();
+    }
+
+    public Page<Product> findAllByCategoryIdOrderByValueDesc(Integer categoryId, Pageable page){
+        return productRepository.findAllByCategoryIdOrderByValueDesc(categoryId, page);
     }
 }
