@@ -4,11 +4,18 @@
 </head>
 <body>
     <div th:fragment="form-profile">
+        <script th:inline="javascript">
+        let opT          = /*[[${openType}]]*/ 0;
+            let isClient = /*[[${isClient}]]*/ true;
+            let entity   = /*[[${entity}]]*/ true;
+
+            showLoading();
+        </script>
         <style>
             #form-container{
                 background: #fff !important;
                 width: 100%;
-                margin: 6rem 0;
+                margin: 3rem 0;
                 padding: 1rem 0;
             }
             .ss-main .ss-single-selected{
@@ -22,6 +29,9 @@
                 <div class="card-header">
                     <h5 class="text-center">
                         Mantenha seus dados atualizados
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </h5>
                 </div>
                 <div class="card-body">
@@ -142,10 +152,10 @@
                                 <label for="address">Rua*</label>
                             </div>
                             <div class="col-lg-3">
-                                <input type="number" id="addressNumber" name="addressNumber" class="form-control"
+                                <input type="number" id="addressNumbers" name="addressNumbers" class="form-control"
                                        min="1"
                                        onfocus="onEnter(this)" onblur="onExit(this)">
-                                <label for="addressNumber">Número*</label>
+                                <label for="addressNumbers">Número*</label>
                             </div>
                             <div class="col-lg-3">
                                 <input type="text" id="cepCode" name="cepCode" class="form-control"
@@ -172,6 +182,7 @@
                 </div>
             </div>
 
+            <script th:src="@{/js/fileuploadpreview.js}"></script>
             <script th:src="@{/js/page-scripts/profile.js}"></script>
         </div>
     </div>

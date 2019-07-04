@@ -1,8 +1,19 @@
 "use strict";
 let imgAtual;
-let client = true;
 
 $(document).ready(function () {
+    let select;
+    if(!isClient)
+    {
+        $('[allc-client-only]').hide();
+        $('#city').remove();
+    }
+    else{
+        select = new SlimSelect({
+            select: '#city'
+        });
+    }
+
     $("#frm").validate({
         rules: {
             name: {
@@ -56,50 +67,41 @@ $(document).ready(function () {
             form.submit();
         }
     });
-    new SlimSelect({
-        select: '#city'
-    });
-});
 
-function editProfile(url) {
-    onOpenModal();
-    clearImageData();
-    $('#txtPassword').rules('remove');
+    if(opT != 0)
+    {
+        $.each($("#frm").get()[0].elements, function(e, inp) {
+            if(inp.id.indexOf("txtPassword") == -1)
+                $(inp).val(entity[$(inp).prop('name')]);
+        });
 
-    $.get(
-        url,
-        function (entity, status) {
-            $("#id").val(entity.id);
-            $("#urlImage").val(entity.imageUrl);
-            $("#username").val(entity.username);
-            $("#name").val(entity.name);
-            $("#txtEmailCad").val(entity.email);
-            $("#txtEmailCadConf").val(entity.email);
-            $('#cpf').val($('#cpf').masked(entity.cpf));
+        $("#txtEmailCadConf").val(entity.email)
 
-            if (entity.imageUrl && entity.imageUrl !== null && entity.imageUrl !== undefined) {
-                $('#img-preview').attr('src', `/profile/findImage/${entity.imageUrl}`);
-                const parts = entity.imageUrl.split("_");
-                const size = parseInt(parts[1]);
-                parts.splice(0, 2);
-                const name = parts.join("_");
+        debugger;
+        if(entity.city && entity.city.id != 0)
+            select.set(entity.city.id);
 
-                imgAtual = new File(
-                    [new ArrayBuffer(size)],
-                    name,
-                    {
-                        type: `image/${name.split('.').pop()}`
-                    });
-            }
+        if (entity.imageUrl && entity.imageUrl !== null && entity.imageUrl !== undefined) {
+            $('#img-preview').attr('src', `/account/findImage/${entity.imageUrl}`);
+            const parts = entity.imageUrl.split("_");
+            const size = parseInt(parts[1]);
+            parts.splice(0, 2);
+            const name = parts.join("_");
 
-            $.each($('#frm input[type=text], #frm input[type=email], #frm input[type=password], #frm textarea'), (index, item) => {
-                onEnter(item);
-            });
+            imgAtual = new File(
+                [new ArrayBuffer(size)],
+                name,
+                {
+                    type: `image/${name.split('.').pop()}`
+                });
         }
-    );
 
-    $("#modal-form").modal();
-}
+        $.each($('#frm input[type=text], #frm input[type=email], #frm input[type=password], #frm input[type=tel], #frm textarea'), (index, item) => {
+            onEnter(item);
+        });
+    }
+    hideLoading();
+});
 
 function saveProfile(url) {
     if (!($('#frm').valid())) {
@@ -126,31 +128,29 @@ function saveProfile(url) {
         data: formData,
         enctype: 'multipart/form-data',
         type: $('#frm').attr('method'),
-        url: $('#frm').attr('action'),
+        url: isClient ? '/profile/saveProfile' : '/account/addAccount',
         async: false,
         cache: false,
         contentType: false,
         processData: false,
         success: (e) => {
+            debugger;
             swal({
-                title: 'Salvo!',
-                text: 'Registro Salvo com Sucesso!',
+                title: 'Cadastro salvo com sucesso!',
+                text: 'Favor efetue login!',
                 type: 'success'
             }, () => {
-                window.location = url;
+                returnToIndex();
             });
 
         },
         error: (e) => {
+            debugger;
             swal('Errou!', 'Falha ao salvaro registro!', 'error');
         }
     })
 }
 
-function clearImageData() {
-    $("#img-preview").attr("src", "");
-}
-
 function returnToIndex() {
-    window.location = client ? '/' : '/admin';
+    window.location = isClient ? '/' : '/admin';
 }

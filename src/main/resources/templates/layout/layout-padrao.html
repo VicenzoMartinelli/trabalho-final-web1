@@ -22,7 +22,7 @@
         <link rel="stylesheet" th:href="@{/css/style.css}"/>
         <link rel="stylesheet" th:href="@{/vendors/sweetalert/sweetalert.css}"/>
         <link rel="stylesheet" th:href="@{/vendors/bootstrap-datepicker/css/bootstrap-datepicker.min.css}"/>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.22.0/slimselect.min.css" rel="stylesheet"></link>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.22.0/slimselect.min.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -80,8 +80,8 @@
                             </div>
 
                             <div class="dd-allianz-content flex-column text-left">
-                                <a class="nav-link text-left">Perfil
-                                    <i class="fas fa-users-cog"></i>
+                                <a class="nav-link text-left" th:href="${'/profile/editprofile/' + #authentication.getPrincipal().getUsername()}">
+                                    Perfil <i class="fas fa-users-cog"></i>
                                 </a>
                                 <a class="nav-link text-left">Pedidos
                                     <i class="fas fa-clipboard-list"></i>

@@ -4,6 +4,7 @@ import br.edu.utfpr.pb.trabalhofinalweb1.config.Constants;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.Role;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.User;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.UserClient;
+import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryRole;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryUser;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryUserClient;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.IServiceUserClient;
@@ -32,13 +33,16 @@ public class ServiceUserClient extends ServiceCrud<UserClient, Long>
     @Autowired
     private RepositoryUser userRepository;
 
+    @Autowired
+    private RepositoryRole roleRepository;
+
     @Override
     public UserClient saveWithImage(UserClient user, MultipartFile image) throws IOException {
         Optional<String> newImg = null;
         Boolean sameImage = false;
 
         if (user.getId() == null) {
-            user.setRoles(new HashSet<>(Arrays.asList(new Role[] {new Role(2, "ROLE_USER")})));
+            user.setRoles(new HashSet<>(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
 
             user.setPassword(user.getEncondedPassword());
         } else {

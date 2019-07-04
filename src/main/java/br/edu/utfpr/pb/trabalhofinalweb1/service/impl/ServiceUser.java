@@ -60,43 +60,46 @@ public class ServiceUser extends ServiceCrud<User, Long>
         Optional<String> newImg = null;
         Boolean sameImage = false;
 
+        User dbUser = userRepository.findById(user.getId()).orElse(new User());
+
+
         if (user.getId() == null) {
-            user.setRoles(new HashSet<>(Arrays.asList(roleService.findAdminRole())));
+            dbUser.setRoles(new HashSet<>(Arrays.asList(roleService.findAdminRole())));
 
-            user.setPassword(user.getEncondedPassword());
+            dbUser.setPassword(user.getEncondedPassword());
         } else {
-            user.setRoles(userRepository.findRolesById(user.getId()));
-
-            if (user.getPassword() == null || user.getPassword().isEmpty()) {
-                user.setPassword(userRepository.findPasswordById(user.getId()));
-            } else {
+            if (! (user.getPassword() == null || user.getPassword().isEmpty())) {
                 user.setPassword(user.getEncondedPassword());
             }
         }
 
-        save(user);
+        dbUser.setCpf(user.getCpf());
+        dbUser.setEmail(user.getEmail());
+        dbUser.setName(user.getName());
 
-        newImg = image == null ? Optional.empty() : Optional.ofNullable(getFileIdentifier(user, image));
+        save(dbUser);
 
-        sameImage = newImg.orElse("").equals(user.getImageUrl());
+        newImg = image == null ? Optional.empty() : Optional.ofNullable(getFileIdentifier(dbUser, image));
+
+        sameImage = newImg.orElse("").equals(dbUser.getImageUrl());
 
         if (!sameImage) {
-            if (user.getImageUrl() != null && !user.getImageUrl().isEmpty())
-                Files.deleteIfExists(Paths.get(Constants.STORAGE_PATH_USERS + user.getImageUrl()));
+            if (dbUser.getImageUrl() != null && !dbUser.getImageUrl().isEmpty())
+                Files.deleteIfExists(Paths.get(Constants.STORAGE_PATH_USERS + dbUser.getImageUrl()));
 
             if (newImg.isPresent() && !newImg.get().isEmpty()) {
                 Files.write(
                         Paths.get(Constants.STORAGE_PATH_USERS + newImg.get()),
                         image.getBytes());
 
-                user.setImageUrl(newImg.get());
+                dbUser.setImageUrl(newImg.get());
             }
 
         }
 
-        save(user);
+        save(dbUser);
 
-        return user;
+        return dbUser;
     }
 
     private String getFileIdentifier(User user, MultipartFile image) {

@@ -1,6 +1,7 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.controller;
 
 import br.edu.utfpr.pb.trabalhofinalweb1.config.Constants;
+import br.edu.utfpr.pb.trabalhofinalweb1.converter.Base64Converter;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.User;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.UserClient;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryUser;
@@ -16,11 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.activation.FileTypeMap;
 import javax.validation.Valid;
@@ -44,6 +48,9 @@ public class ProfileController extends CrudController<UserClient, Long> {
 
     @Autowired
     private ServiceCity _serviceCity;
+
+    @Autowired
+    private Base64Converter _cv64;
 
     @Override
     protected ServiceCrud getService() {
@@ -70,14 +77,38 @@ public class ProfileController extends CrudController<UserClient, Long> {
         return "Perfil";
     }
 
+    @Override
     @GetMapping("newclientprofile")
-    public ModelAndView form(@Nullable Optional<UserClient> entity) {
+    public ModelAndView form(UserClient entity) {
         ModelAndView md = new ModelAndView(this.getUrl() + "/form-client");
 
-        UserClient uc = entity.isPresent() && entity.get().getId() != null
-                ? _serviceUC.findOne(entity.get().getId()) : new UserClient();
+        md.addObject("openType", 0);
+        md.addObject("isClient", true);
+        addDependenciesObjects(md);
 
-        md.addObject("entity", uc);
+        return md;
+    }
+
+    @GetMapping("editprofile/{username}")
+    public ModelAndView editprofile(
+            @PathVariable("username") String username
+    ) {
+        if(username == null || username.isEmpty())
+            return new ModelAndView("admin");
+
+        if( !SecurityContextHolder.getContext().getAuthentication().isAuthenticated() ||
+            !username.equals(SecurityContextHolder.getContext().getAuthentication().getName()))
+            return new ModelAndView("redirect:/home?n=1&m=" + _cv64.encode("Que ce tá fazendo ai?"));
+
+        User us = _service.findByUsername(username);
+        Boolean isUserClient = us instanceof UserClient;
+
+        ModelAndView md = new ModelAndView(this.getUrl() + (isUserClient ? "/form-client" : "/form"));
+
+
+        md.addObject("entity", isUserClient ? (UserClient) us : us);
+        md.addObject("isClient", isUserClient);
+        md.addObject(   "openType", 1);
 
         addDependenciesObjects(md);
 
@@ -95,7 +126,7 @@ public class ProfileController extends CrudController<UserClient, Long> {
         }
 
         try {
-            _service.saveWithImage(entity, image.orElse(null));
+            _serviceUC.saveWithImage(entity, image.orElse(null));
         } catch (IOException e) {
             new ResponseEntity<>("Erro ao salvar o usuário!", HttpStatus.BAD_REQUEST);
         }
