@@ -1,6 +1,8 @@
+let currentPage;
+let isLast;
 const templateProduct = (p) => `
 <div class="col-lg-4 p-5">
-    <a href="/product/details/${p.id}">
+    <a href="/product/shop/details/${p.id}">
         <div class="card text-dark">
             <div class="card-body">
                 <div>
@@ -26,12 +28,48 @@ const templateProduct = (p) => `
     </a>
 </div>`;
 
-$(() => {
-    $.getJSON('/product/findproducts/4', (r) => {
-        debugger;
+function loadData(){
+    if(isLast)
+        return;
+    let category = $('#category-id').val();
+    showLoading();
+    $.ajax({
+        url: `/product/findproducts`,
+        dataType: 'json',
+        data: {
+            page: (currentPage === undefined ? 1 : currentPage + 1),
+            categoryId: category,
+            filterText: $('#filterText').val()
+        },
+        success: (r) => {
+            r.products.content.forEach(x => {
+                $('#product-list').append(templateProduct(x));
+            });
 
-        r.products.content.forEach(x => {
-            $('#product-list').append(templateProduct(x));
-        });
+            currentPage = r.products.pageable.pageNumber + 1;
+            isLast = r.products.last;
+
+            hideLoading();
+        }
+    });
+}
+
+$(() => {
+    loadData();
+
+    $(window).scroll(function() {
+        let height = document.documentElement.offsetHeight,
+        offset = document.documentElement.scrollTop + window.innerHeight;
+
+        if ((offset + 70) >= height) {
+            loadData();
+        }
+    });
+
+    $('#search-btn').click(() => {
+        $('#product-list').children().remove();
+        currentPage = undefined;
+        isLast = false;
+        loadData();
     });
 });

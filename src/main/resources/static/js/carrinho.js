@@ -6,44 +6,45 @@ $(() => {
         $('#c-ok').show();
         $('#c-vazio').hide();
         recalculaTotal();
-        alert('Adicionado ao carrinho!');
+        $('[data-toggle="tooltip"]').tooltip();
+
+        swal('Adicionado ao carrinho!', 'Valeuuu!', 'success');
     });
     let items = getArrayStorage();
 
     items.forEach((x) => {
-        newRowCarrinho(criarLinha(x.scImg, x.nome, x.quantidade, x.valor));
+        newRowCarrinho(criarLinha(x.scImg, x.nome, x.quantidade, x.valor, x.qtdeMax, x.id));
     });
+    $('[data-toggle="tooltip"]').tooltip();
     recalculaTotal();
 
 });
 
 function newProduct() {
+    let id = $("#productId").val();
     let valor = $('#preco').text();
     let scImg = $('#imagem-principal').attr('src').replace('img/', 'img/sm-');
     let quantidade = $('#quantidade').val();
+    let qtdeMax = $('#quantidade option:last-child').val();
     let nome = $('#nomeProduto').text();
-    let tr = criarLinha(scImg, nome, quantidade, valor);
+    let tr = criarLinha(scImg, nome, quantidade, valor, qtdeMax, id);
 
     return {
         html: tr
     };
 }
 
-function criarLinha(scImg, nome, quantidade, valor) {
+function criarLinha(scImg, nome, quantidade, valor, qtdeMaxima, id) {
     return `
-    <tr>
+    <tr id="${id}">
       <td> 
-        <div class="container-fluid d-inline-flex align-items-center px-0" name="cNome">
-            <img name="imgProduto" src="${scImg}" 
-                    alt="Imagem do Produto" style="width: 20%;" />
-            ${nome}
-        </div>
+        <div class="container-fluid d-inline-flex px-0" name="cNome"><img name="imgProduto" src="${scImg}" alt="Imagem do Produto" style="width: 33%; height: 90px; border-radius: 1rem; margin-right: 3%;" />${nome}</div>
       </td>
       <td name="quantidadeIni">
-        <input type="number" onchange="recalculaTotal();" class="form-control" min="1" onfocus="onEnter(this)" onblur="onExit(this)" value="${quantidade}"></input>
+        <input type="number" onchange="recalculaTotal();" class="form-control" min="1" max="${qtdeMaxima}" onfocus="onEnter(this)" onblur="onExit(this)" value="${quantidade}" />
       </td>
-      <td name="valorIni"> <span>${valor}</span> R$</td>
-      <td><a onclick="deletarItem(this, event);"> <i class="fa fa-2x fa-times-rectangle text-dark"></i></a></td>
+      <td name="valorIni"> <span>${valor}</span></td>
+      <td><a onclick="deletarItem(this, event);"><i class="far fa-window-close fa-lg text-dark h-100" title="Excluir produto" data-toggle="tooltip"></i></a></td>
     </tr>`;
 }
 
@@ -76,7 +77,7 @@ function deletarItem(element, evento) {
 }
 
 function recalculaTotal() {
-    let frete = Number($('#valorFrete').text());
+    let frete = 35.99;
     let subtotal = 0;
     $('#tblProdutos tbody tr').each(function (index, element) {
         let qtde = Number($(element).children('td[name="quantidadeIni"]').children('input').val());
@@ -102,12 +103,13 @@ function recalculaTotal() {
 function atualizaStorage() {
     let items = [];
     $('#tblProdutos tbody tr').each(function (index, element) {
-        debugger;
         items.push({
+            id: Number($(element).prop('id')),
             scImg: $(element).find('img[name="imgProduto"]').attr('src'),
             valor: Number($(element).children('td[name="valorIni"]').children('span').text()),
             nome: $(element).find('div[name="cNome"]').text(),
-            quantidade: Number($(element).children('td[name="quantidadeIni"]').children('input').val())
+            quantidade: Number($(element).children('td[name="quantidadeIni"]').children('input').val()),
+            qtdeMax: Number($(element).children('td[name="quantidadeIni"]').children('input').prop('max'))
         });
     });
 

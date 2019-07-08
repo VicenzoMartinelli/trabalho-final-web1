@@ -6,10 +6,17 @@
 <head></head>
 <body>
 <section layout:fragment="conteudo">
+    <input type="hidden" id="category-id" th:value="${categoryId}" />
     <div class="container-fluid" id="container-products">
         <div class="row text-dark big-font pt-5">
             <div class="col-lg-12 text-center" th:text="${pageName}">Coleção Anéis Allianz Outubro 2018</div>
         </div>
+        <form class="container mt-3">
+            <div class="row">
+                <input style="height: 53px;" type="text" class="form-control col-lg-10" id="filterText" name="filterText" th:value="${filterText}" />
+                <div class="col-lg-2"><a id="search-btn" class="btn btn-black"><i class="fas fa-search"></i></a></div>
+            </div>
+        </form>
         <div class="row" id="product-list">
 
         </div>

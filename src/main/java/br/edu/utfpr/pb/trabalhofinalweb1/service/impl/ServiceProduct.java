@@ -98,4 +98,10 @@ public class ServiceProduct extends ServiceCrud<Product, Integer>
     public Page<Product> findAllByCategoryIdOrderByValueDesc(Integer categoryId, Pageable page){
         return productRepository.findAllByCategoryIdOrderByValueDesc(categoryId, page);
     }
+    public Page<Product> findAllByCategoryIdAndNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(Integer categoryId, String filterText, Pageable page){
+        return productRepository.findAllByCategoryIdAndNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(categoryId,filterText,filterText, page);
+    }
+    public Page<Product> findAllByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(String filterText, Pageable page){
+        return productRepository.findAllByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(filterText ,filterText, page);
+    }
 }

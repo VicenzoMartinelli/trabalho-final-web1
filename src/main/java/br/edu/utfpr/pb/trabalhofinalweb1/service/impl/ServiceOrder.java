@@ -4,6 +4,8 @@ import br.edu.utfpr.pb.trabalhofinalweb1.model.Order;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryOrder;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.IServiceOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +21,7 @@ public class ServiceOrder extends ServiceCrud<Order, Long>
         return orderRepository;
     }
 
+    public Page<Order> findAllByUserClientUsernameOrderByOrderDateDesc(Pageable pageable, String name) {
+        return orderRepository.findAllByUserClientUsernameOrderByOrderDateDesc(pageable, name);
+    }
 }

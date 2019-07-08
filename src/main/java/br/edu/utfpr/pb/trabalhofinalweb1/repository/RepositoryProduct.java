@@ -10,4 +10,8 @@ public interface RepositoryProduct extends JpaRepository<Product, Integer> {
     Page<Product> findAllByOrderByNameAsc(Pageable pageable);
 
     Page<Product> findAllByCategoryIdOrderByValueDesc(Integer id, Pageable pageable);
+
+    Page<Product> findAllByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(String filter,String filter2, Pageable pageable);
+
+    Page<Product> findAllByCategoryIdAndNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(Integer id, String filter,String filter2,Pageable pageable);
 }

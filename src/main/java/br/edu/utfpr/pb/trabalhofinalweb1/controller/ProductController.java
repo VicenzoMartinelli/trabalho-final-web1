@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.activation.FileTypeMap;
+import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 import javax.xml.ws.Response;
 import java.io.File;
@@ -77,17 +78,22 @@ public class ProductController extends CrudController<Product, Integer> {
     }
 
     @GetMapping("shop/{categoryId}")
-    public ModelAndView list(@PathVariable("categoryId") Optional<Integer> categoryId) {
+    public ModelAndView list(
+            @PathVariable("categoryId") Integer categoryId,
+            @RequestParam("filterText") Optional<String> filterText,
+            ServletRequest request
+    ) {
         ModelAndView md = new ModelAndView(this.getUrl() + "/shopping-products");
 
-        md.addObject("pageName", categoryId.isPresent() ?
-                "Coleção " + _repositoryCategory.findNameById(categoryId.get())
+        md.addObject("pageName", categoryId != 0 ?
+                "Coleção " + _repositoryCategory.findNameById(categoryId)
                         + " ALLIANZ " + LocalDate.now().getMonth()
                             .getDisplayName(TextStyle.FULL, Locale.getDefault())
                         + " " + LocalDate.now().getYear() :
                 getPageName());
 
-        md.addObject("categoryId", categoryId);
+        md.addObject("categoryId", categoryId == 0 ? null : categoryId);
+        md.addObject("filterText", filterText.orElse(null));
 
         addDependenciesObjects(md);
 
@@ -137,9 +143,10 @@ public class ProductController extends CrudController<Product, Integer> {
                 .body(Files.readAllBytes(img.toPath()));
     }
 
-    @GetMapping(value = "findproducts/{categoryId}")
+    @GetMapping(value = "findproducts")
     public ResponseEntity<?> findProducts(
-            @PathVariable("categoryId") Optional<Integer> categoryId,
+            @RequestParam("categoryId") Optional<Integer> categoryId,
+            @RequestParam("filterText") Optional<String> filterText,
             @RequestParam("page") Optional<Integer> page
     )
     {
@@ -148,8 +155,11 @@ public class ProductController extends CrudController<Product, Integer> {
 
         PageRequest pageable = PageRequest.of(currentPage - 1, pageSize);
 
-        Page<Product> list = categoryId.isPresent() ? _serviceProduct
-                .findAllByCategoryIdOrderByValueDesc(categoryId.get(), pageable) : _serviceProduct.findAll(pageable);
+        Page<Product> list = categoryId.isPresent() ? filterText.isPresent() && !filterText.get().isEmpty()  ?
+                _serviceProduct.findAllByCategoryIdAndNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(categoryId.get(), filterText.get(), pageable)
+                    :  _serviceProduct.findAllByCategoryIdOrderByValueDesc(categoryId.get(), pageable)
+                : filterText.isPresent() && !filterText.get().isEmpty() ? _serviceProduct.findAllByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByValueDesc(filterText.get(), pageable)
+                    : _serviceProduct.findAll(pageable);
 
         ProductListViewModel ret = new ProductListViewModel();
 
@@ -166,5 +176,14 @@ public class ProductController extends CrudController<Product, Integer> {
         ret.setTotalCount(list.getTotalElements());
 
         return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
+    @GetMapping("shop/details/{productId}")
+    public ModelAndView productDetails(@PathVariable("productId") Integer productId) {
+        ModelAndView md = new ModelAndView(this.getUrl() + "/details");
+
+        md.addObject("product", _serviceProduct.findOne(productId));
+
+        return md;
     }
 }

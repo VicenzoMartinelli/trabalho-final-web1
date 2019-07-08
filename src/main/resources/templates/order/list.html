@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout-padrao}">
+<head>
+</head>
+<body>
+<section layout:fragment="conteudo">
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+
+    <div class="card container-fluid mt-5">
+        <div class="card-header" th:text="${pageName}"></div>
+        </div>
+    </div>
+
+    <div class="container-fluid grid-container pt-5">
+        <div class="table-responsive">
+            <table id="tabela-produtos"
+                   class="table table-striped  table-bordered  table-hover  table-condensed">
+                <thead class="ut-table-header-solid">
+                <tr>
+                    <th>Data</th>
+                    <th>Valor Total</th>
+                    <th>Forma de pagamento</th>
+                    <th>Situação</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:id="'row_' + ${entity.id}" th:each="entity: ${list.content}">
+                    <td class="text-center" th:text="${#temporals.format(entity.orderDate, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${'R$ ' + #numbers.formatDecimal(entity.getTotalValue(), 0, 'POINT', 2, 'COMMA')}" ></td>
+                    <td th:text="${#strings.equals(entity.paymentType, 'CreditCard') ? 'Cartão de crédito' : 'PayPal'}"></td>
+                    <td class="text-text"><i class="fas fa-truck"></i></td>
+                </tr>
+                <tr th:if="${list.empty}">
+                    <td colspan="4">Não encontramos nada aqui :(</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="grid-footer d-flex justify-content-between align-items-center align-self-center mx-3">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination pg-blue justify-content-center "
+                        th:if="${list.totalPages > 0}">
+                        <li class="page-item" th:classappend="${list.number + 1 == 1} ? disabled">
+                            <a class="page-link" th:href="@{/providerorder/(size=${list.size}, page=${list.number})}">Anterior</a>
+                        </li>
+                        <li class="page-item" th:classappend="${pageNumber == list.number + 1} ? active"
+                            th:each="pageNumber : ${pageNumbers}">
+                            <a class="page-link"
+                               th:href="@{/providerorder/(size=${list.size}, page=${pageNumber})}"
+                               th:text="${pageNumber}">
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${list.number + 1 == list.totalPages} ? disabled">
+                            <a class="page-link"
+                               th:href="@{/providerorder/(size=${list.size}, page=${list.number + 2})}">Próxima</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <h6>Total de <strong th:text="${totalCount}"></strong> registros</h6>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

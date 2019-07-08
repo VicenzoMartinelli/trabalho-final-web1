@@ -455,6 +455,12 @@ footer a:hover {
     }
 }
 
+#conteudo > .container-fluid{
+    padding-top: 5%;
+    background-color: #fff;
+    font-family: 'Julius Sans One';
+}
+
 #container-products {
     padding-top: 5%;
     background-color: #fff;
@@ -492,11 +498,12 @@ footer a:hover {
 
 #container-products .card:hover {
     transform: translate(0, -1rem);
-    box-shadow: 0px 11px 20px 12px #a2a2a2;
+    box-shadow: 0px 11px 20px 12px #d4d4d4;
 }
 
 #container-products .card:hover img {
     transform: scale(1.05, 1.03);
+    border-radius: 1rem;
 }
 
 .modal-dialog .fa {
@@ -612,4 +619,9 @@ div.datepicker--cell.datepicker--cell-day.-weekend-.-current-{
 }
 div.datepicker--cell.datepicker--cell-day.-weekend-.-current-.-selected-{
     color: #ffffff !important;
+}
+
+.custom-control-input:checked~.custom-control-label::before,
+.custom-radio .custom-control-input:checked~.custom-control-label::before{
+    background-color: #000000 !important;
 }
