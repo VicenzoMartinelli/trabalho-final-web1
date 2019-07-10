@@ -60,8 +60,8 @@ public class OrderController extends CrudController<Order, Long> {
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        _serviceOrder.save(entity);
+        Order r = _serviceOrder.save(entity);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(r, HttpStatus.OK);
     }
 }

@@ -1,0 +1,8 @@
+#text-title{
+    background: -webkit-linear-gradient(9deg, rgba(204,169,16,1) 0%, rgba(0,0,0,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 6rem;
+}

@@ -1,8 +1,9 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.viewmodel;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Dataset {
+public class Dataset implements Serializable {
 
     public String name;
     public List<Integer> value;

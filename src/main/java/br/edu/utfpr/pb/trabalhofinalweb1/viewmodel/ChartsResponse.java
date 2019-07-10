@@ -1,8 +1,9 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.viewmodel;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ChartsResponse {
+public class ChartsResponse implements Serializable {
     private String appName;
     private List<String> lables;
     private List<Dataset> datasets;

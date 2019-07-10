@@ -1,5 +1,6 @@
 package br.edu.utfpr.pb.trabalhofinalweb1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class OrderItem implements Serializable {
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = true)
     private Product product;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;

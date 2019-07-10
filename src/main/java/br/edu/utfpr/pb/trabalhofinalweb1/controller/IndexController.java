@@ -45,8 +45,8 @@ public class IndexController {
     @GetMapping("/viewCharts")
     public ResponseEntity<?> getCharts(){
         List<ChartsResponse> chartsResponse = new ArrayList<>();
-        chartsResponse.add(chartService.getDummyData1());
-        chartsResponse.add(chartService.getDummyData2());
+        chartsResponse.add(chartService.getDataOrdersPerDay());
+        chartsResponse.add(chartService.getDataCountProductsSellPerCategory());
 
         return new ResponseEntity<>(chartsResponse, HttpStatus.OK);
     }

@@ -52,7 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/product/**").hasAnyRole(admin)
                 .antMatchers("/providerorder/**").hasAnyRole(admin)
                 .antMatchers("/profile/editprofile/**").authenticated()
-                .antMatchers("/order/**").authenticated();
+                .antMatchers("/order/**").authenticated()
+                .antMatchers("/relatorio/**").authenticated();
     }
 
     @Override

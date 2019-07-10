@@ -80,15 +80,22 @@ function saveOrder(paymentType){
         type: 'POST',
         url: '/order/saveorder',
         contentType : 'application/json',
+        dataType: 'json',
         data : JSON.stringify(order),
         success: (e) => {
+
             swal({
                 title: 'Salvo!',
                 text: 'Pedido efetuado com sucesso!',
                 type: 'success'
-            }, () => {
+            }, function() {
                 localStorage.setItem('arrDataCart', JSON.stringify([]));
-                window.location = '/';
+                $(`<form action="/relatorio/order/download" method="GET"><input type="text" name="orderId" value="${e.id}" /> </form>`)
+                    .appendTo('body')
+                    .submit()
+                    .remove();
+                showLoading();
+                setTimeout(() => window.location = '/', 5000);
             });
 
         },
