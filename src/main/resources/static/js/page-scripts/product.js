@@ -32,6 +32,8 @@ $(document).ready(function () {
     $(".file-dropzone").on('dragleave', handleDragLeave);
     $(".file-dropzone").on('drop', handleDragLeave);
 
+    $('[data-toggle="modal"]').click(clearImageData);
+
     function handleDragEnter(e) {
 
         this.classList.add('drag-over');
@@ -87,6 +89,7 @@ function editProduct(url) {
             });
 
             entity.urlsImgs.forEach((x) => {
+                debugger;
                 $(".dropzone-previews").append(previewTemplate(x));
                 const identifier = x.split('/').pop();
                 const parts = identifier.split("_");

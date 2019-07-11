@@ -6,7 +6,7 @@ const templateProduct = (p) => `
         <div class="card text-dark">
             <div class="card-body">
                 <div>
-                    <img src="/product/findImage/${p.urlsImgs && p.urlsImgs[0]}" />
+                    <img src="/product/findImage/${p.urlsImgs.length === 0 ? "null.gif" : p.urlsImgs[0]}" />
                 </div>
             </div>
             <div class="card-footer">

@@ -612,6 +612,7 @@ footer a:hover {
 
 div.datepicker--cell.datepicker--cell-day.-selected-{
     background: var(--main-gold);
+    color: #fff !important;
 }
 div.datepicker--cell.datepicker--cell-day.-weekend-.-current-{
     color: #000000 !important;

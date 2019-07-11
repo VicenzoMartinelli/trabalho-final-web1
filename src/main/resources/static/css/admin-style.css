@@ -120,3 +120,7 @@ strong {
     text-align:center;
     font-family: "Times New Roman", Georgia, Serif;
 }
+.datepicker--cell.-current-{
+    color: #000 !important;
+    font-weight: bold;
+}

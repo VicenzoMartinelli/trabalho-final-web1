@@ -44,18 +44,18 @@
                     <ul class="pagination pg-blue justify-content-center "
                         th:if="${list.totalPages > 0}">
                         <li class="page-item" th:classappend="${list.number + 1 == 1} ? disabled">
-                            <a class="page-link" th:href="@{/providerorder/(size=${list.size}, page=${list.number})}">Anterior</a>
+                            <a class="page-link" th:href="@{/order/(size=${list.size}, page=${list.number})}">Anterior</a>
                         </li>
                         <li class="page-item" th:classappend="${pageNumber == list.number + 1} ? active"
                             th:each="pageNumber : ${pageNumbers}">
                             <a class="page-link"
-                               th:href="@{/providerorder/(size=${list.size}, page=${pageNumber})}"
+                               th:href="@{/order/(size=${list.size}, page=${pageNumber})}"
                                th:text="${pageNumber}">
                             </a>
                         </li>
                         <li class="page-item" th:classappend="${list.number + 1 == list.totalPages} ? disabled">
                             <a class="page-link"
-                               th:href="@{/providerorder/(size=${list.size}, page=${list.number + 2})}">Próxima</a>
+                               th:href="@{/order/(size=${list.size}, page=${list.number + 2})}">Próxima</a>
                         </li>
                     </ul>
                 </nav>

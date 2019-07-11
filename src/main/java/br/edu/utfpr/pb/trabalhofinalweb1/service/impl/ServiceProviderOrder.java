@@ -2,6 +2,7 @@ package br.edu.utfpr.pb.trabalhofinalweb1.service.impl;
 
 import br.edu.utfpr.pb.trabalhofinalweb1.model.Product;
 import br.edu.utfpr.pb.trabalhofinalweb1.model.ProviderOrder;
+import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryProduct;
 import br.edu.utfpr.pb.trabalhofinalweb1.repository.RepositoryProviderOrder;
 import br.edu.utfpr.pb.trabalhofinalweb1.service.IServiceProviderOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class ServiceProviderOrder extends ServiceCrud<ProviderOrder, Long>
 
     @Autowired
     private RepositoryProviderOrder orderRepository;
+
+    @Autowired
+    private RepositoryProduct repositoryProduct;
 
     @Autowired
     private ServiceProduct serviceProduct;
@@ -32,7 +36,7 @@ public class ServiceProviderOrder extends ServiceCrud<ProviderOrder, Long>
         if(entity.isDelivered())
         {
             entity.getOrderItems().forEach((item) -> {
-                Product p = serviceProduct.findOne(item.getProduct().getId());
+                Product p = repositoryProduct.getOne(item.getProduct().getId());
 
                 p.setCount(p.getCount() + item.getCount());
 

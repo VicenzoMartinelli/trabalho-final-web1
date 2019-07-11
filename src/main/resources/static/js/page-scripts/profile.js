@@ -75,7 +75,9 @@ $(document).ready(function () {
                 $(inp).val(entity[$(inp).prop('name')]);
         });
 
-        $("#txtEmailCadConf").val(entity.email)
+        $("#txtEmailCadConf").val(entity.email);
+        $('#txtPassword').rules('remove');
+        $('#txtPasswordConf').rules('remove');
 
         debugger;
         if(entity.city && entity.city.id != 0)
